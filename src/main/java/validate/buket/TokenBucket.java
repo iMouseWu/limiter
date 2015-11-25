@@ -20,7 +20,7 @@ import java.util.concurrent.TimeUnit;
 /**
  * A token bucket is used for rate limiting access to a portion of code.
  *
- * @see <a href="http://en.wikipedia.org/wiki/Token_bucket">Token Bucket on
+ * @see <a href="http://en.wikipedia.org/wiki/Token_bucket">TokenBucket Bucket on
  *      Wikipedia</a>
  * @see <a href="http://en.wikipedia.org/wiki/Leaky_bucket">Leaky Bucket on
  *      Wikipedia</a>

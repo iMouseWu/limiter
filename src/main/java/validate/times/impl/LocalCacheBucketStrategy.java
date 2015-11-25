@@ -73,4 +73,8 @@ public class LocalCacheBucketStrategy implements TimeCountStrategy {
         return Math.abs(key.hashCode() % (CAPACITY - 1));
     }
 
+    public static void main(String[] args) {
+        System.out.println( TimeUnit.DAYS.toHours(1));
+    }
+
 }
