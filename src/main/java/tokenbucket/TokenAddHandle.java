@@ -5,6 +5,7 @@ package tokenbucket;
  */
 public interface TokenAddHandle {
 
+    void add();
 
 
 }

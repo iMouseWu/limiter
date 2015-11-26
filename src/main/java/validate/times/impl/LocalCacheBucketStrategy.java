@@ -1,14 +1,9 @@
 package validate.times.impl;
 
-import validate.buket.TokenBucket;
-import validate.buket.TokenBuckets;
-import validate.buket.TokenContainer;
 import validate.times.LimitProperty;
 import validate.times.LimitPropertyFactory;
 import validate.times.TimeCountStrategy;
 
-import java.util.HashMap;
-import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -18,7 +13,7 @@ import java.util.concurrent.TimeUnit;
  */
 public class LocalCacheBucketStrategy implements TimeCountStrategy {
 
-    private Map<String, TokenContainer> bucketMap = new HashMap<String, TokenContainer>();
+//    private Map<String, TokenContainer> bucketMap = new HashMap<String, TokenContainer>();
 
     private LimitPropertyFactory limitPropertyAchieve;
 
@@ -49,20 +44,21 @@ public class LocalCacheBucketStrategy implements TimeCountStrategy {
 
         String key = generateKey(vistor, resource);
 
-        TokenContainer tokenContainer = bucketMap.get(key);
+//        TokenContainer tokenContainer = bucketMap.get(key);
         int index = getIndex(key);
-        synchronized (locks[index]) {
-            tokenContainer = bucketMap.get(key);
-            if (null == tokenContainer) {
-                tokenContainer = new TokenContainer(key, bucketNum, bucketNum, TimeUnit.SECONDS.toMillis(1));
-                bucketMap.put(key, tokenContainer);
-            }
-        }
-        TokenBucket tokenBucket = TokenBuckets.builder().withTokenContainer(tokenContainer)
-                .withFixedIntervalRefillStrategy(refillTokens, tokenContainer).build();
-        synchronized (tokenContainer) {
-            return tokenBucket.tryConsume();
-        }
+//        synchronized (locks[index]) {
+//            tokenContainer = bucketMap.get(key);
+//            if (null == tokenContainer) {
+//                tokenContainer = new TokenContainer(key, bucketNum, bucketNum, TimeUnit.SECONDS.toMillis(1));
+//                bucketMap.put(key, tokenContainer);
+//    }
+//    }
+//        TokenBucket tokenBucket = TokenBuckets.builder().withTokenContainer(tokenContainer)
+//                .withFixedIntervalRefillStrategy(refillTokens, tokenContainer).build();
+//        synchronized (tokenContainer) {
+//            return tokenBucket.tryConsume();
+//        }
+        return false;
     }
 
     private String generateKey(String vistor, String resource) {
@@ -74,7 +70,7 @@ public class LocalCacheBucketStrategy implements TimeCountStrategy {
     }
 
     public static void main(String[] args) {
-        System.out.println( TimeUnit.DAYS.toHours(1));
+        System.out.println(TimeUnit.DAYS.toHours(1));
     }
 
 }
