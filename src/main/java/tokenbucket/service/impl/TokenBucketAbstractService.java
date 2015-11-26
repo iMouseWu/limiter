@@ -1,4 +1,8 @@
-package tokenbucket;
+package tokenbucket.service.impl;
+
+import tokenbucket.service.TokenBucketService;
+
+import java.util.concurrent.TimeUnit;
 
 /**
  * @author wuhao
@@ -38,5 +42,8 @@ public abstract class TokenBucketAbstractService implements TokenBucketService {
 
     protected abstract boolean doConsume();
 
-
+    @Override
+    public boolean tryConsume(long time, TimeUnit timeUnit) {
+        return false;
+    }
 }

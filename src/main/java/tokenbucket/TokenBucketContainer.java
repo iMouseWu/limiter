@@ -1,5 +1,7 @@
 package tokenbucket;
 
+import tokenbucket.service.TokenBucketService;
+
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -11,10 +13,10 @@ public class TokenBucketContainer {
 
     private final static long DEFAULT_MIN_NANOTIME = 1000L;
 
-    private TokenBucketAbstractService tokenBucketAbstractService;
+    private TokenBucketService tokenBucketService;
 
     public boolean consume() {
-        return tokenBucketAbstractService.consume();
+        return tokenBucketService.consume();
     }
 
     public boolean tryConsume(long time, TimeUnit timeUnit) throws InterruptedException {
@@ -40,6 +42,6 @@ public class TokenBucketContainer {
     }
 
     public boolean tryConsume() {
-        return tokenBucketAbstractService.tryConsume();
+        return tokenBucketService.tryConsume();
     }
 }

@@ -1,4 +1,4 @@
-package tokenbucket;
+package tokenbucket.domain;
 
 import java.io.Serializable;
 
