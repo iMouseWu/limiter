@@ -1,7 +1,7 @@
 package tokenbucket.service.impl;
 
 import tokenbucket.TokenAddHandle;
-import tokenbucket.lock.LockService;
+import tokenbucket.manage.TokenBucketManager;
 import tokenbucket.service.TokenBucketService;
 
 import java.util.concurrent.TimeUnit;
@@ -13,26 +13,26 @@ public class TokenBucketServiceImpl extends TokenBucketAbstractService implement
 
     private TokenAddHandle tokenAddHandle;
 
-    private LockService lockService;
+    private TokenBucketManager tokenBucketManager;
 
     @Override
     public boolean lock(String source) {
-        return lockService.lock(source);
+        return tokenBucketManager.lock(source);
     }
 
     @Override
     protected boolean tryLock(String source) {
-        return lockService.tryLock(source);
+        return tokenBucketManager.tryLock(source);
     }
 
     @Override
     public boolean unlock(String source) {
-        return lockService.unlock(source);
+        return tokenBucketManager.unlock(source);
     }
 
     @Override
     protected boolean tryLock(String source, long timeout, TimeUnit unit) {
-        return lockService.tryLock(source, timeout, unit);
+        return tokenBucketManager.tryLock(source, timeout, unit);
     }
 
     @Override

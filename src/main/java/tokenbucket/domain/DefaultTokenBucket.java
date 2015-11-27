@@ -37,6 +37,11 @@ public class DefaultTokenBucket implements TokenBucket, Serializable {
         return tokenCountPerSecond;
     }
 
+    @Override
+    public boolean filledToken(int num) {
+        return false;
+    }
+
     public void setCapacity(int capacity) {
         this.capacity = capacity;
     }

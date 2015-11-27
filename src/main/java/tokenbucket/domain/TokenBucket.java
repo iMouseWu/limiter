@@ -31,5 +31,12 @@ public interface TokenBucket {
      */
     int getTokenCountPerSecond();
 
+    /**
+     * 增加令牌数量
+     * @param num
+     * @return
+     */
+    boolean filledToken(int num);
+
 
 }
