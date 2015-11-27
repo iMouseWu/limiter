@@ -1,5 +1,7 @@
 package tokenbucket.lock;
 
+import java.util.concurrent.TimeUnit;
+
 /**
  * @author wuhao
  */
@@ -9,5 +11,9 @@ public interface LockService {
 
     boolean tryLock(String source);
 
+    boolean tryLock(String source, long timeout, TimeUnit unit);
+
     boolean unlock(String source);
+
+
 }

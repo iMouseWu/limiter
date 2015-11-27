@@ -16,32 +16,14 @@ public class TokenBucketContainer {
     private TokenBucketService tokenBucketService;
 
     public boolean consume() {
-        return tokenBucketService.consume();
+        return tokenBucketService.consume(tokenBucketName);
     }
 
     public boolean tryConsume(long time, TimeUnit timeUnit) throws InterruptedException {
-        if (tryConsume() || doTry(timeUnit.toNanos(time))) {
-            return true;
-        }
-        return false;
-    }
-
-    private boolean doTry(long nanoTime) throws InterruptedException {
-        long nowNanoTime = System.nanoTime();
-        for (; ; ) {
-            if (nanoTime > DEFAULT_MIN_NANOTIME) {
-                TimeUnit.NANOSECONDS.sleep(nanoTime);
-            }
-            if ((System.nanoTime() - nowNanoTime) > nanoTime) {
-                return tryConsume();
-            }
-            if (Thread.interrupted()) {
-                throw new InterruptedException();
-            }
-        }
+        return tokenBucketService.tryConsume(tokenBucketName);
     }
 
     public boolean tryConsume() {
-        return tokenBucketService.tryConsume();
+        return tokenBucketService.tryConsume(tokenBucketName);
     }
 }

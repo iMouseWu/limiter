@@ -9,41 +9,43 @@ import java.util.concurrent.TimeUnit;
  */
 public abstract class TokenBucketAbstractService implements TokenBucketService {
 
-    protected abstract boolean lock();
+    protected abstract boolean lock(String source);
 
-    protected abstract boolean tryLock();
+    protected abstract boolean tryLock(String source);
 
-    protected abstract boolean unlock();
+    protected abstract boolean unlock(String source);
+
+    protected abstract boolean tryLock(String source, long timeout, TimeUnit unit);
 
     @Override
-    public boolean consume() {
+    public boolean consume(String source) {
         try {
-            if (lock()) {
-                return doConsume();
+            if (lock(source)) {
+                return doConsume(source);
             }
             return false;
         } finally {
-            unlock();
+            unlock(source);
         }
     }
 
     @Override
-    public boolean tryConsume() {
+    public boolean tryConsume(String source) {
         try {
-            if (tryLock()) {
-                return doConsume();
+            if (tryLock(source)) {
+                return doConsume(source);
             }
             return false;
         } finally {
-            unlock();
+            unlock(source);
         }
 
     }
 
-    protected abstract boolean doConsume();
+    protected abstract boolean doConsume(String source);
 
     @Override
-    public boolean tryConsume(long time, TimeUnit timeUnit) {
+    public boolean tryConsume(String source, long time, TimeUnit timeUnit) {
         return false;
     }
 }

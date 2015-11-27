@@ -7,9 +7,9 @@ import java.util.concurrent.TimeUnit;
  */
 public interface TokenBucketService {
 
-    boolean consume();
+    boolean consume(String source);
 
-    boolean tryConsume();
+    boolean tryConsume(String source);
 
-    boolean tryConsume(long time, TimeUnit timeUnit);
+    boolean tryConsume(String source,long time, TimeUnit timeUnit);
 }
