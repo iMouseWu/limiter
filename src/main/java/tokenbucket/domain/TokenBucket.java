@@ -27,16 +27,48 @@ public interface TokenBucket {
     long getLastRefillTimePoint();
 
     /**
+     * 获取增加AddNum所需要的纳秒时间
+     *
+     * @return
+     */
+    long getAddTimeForNano();
+
+    /**
+     * 添加的个数
+     *
+     * @return
+     */
+    int getAddNum();
+
+    /**
+     * 令牌增加周期,可以为空.如果为空默认用AddPeriod的时间
+     *
+     * @return
+     */
+    long getAddPeriod();
+
+    /**
      * 每秒添加令牌的个数
      */
     int getTokenCountPerSecond();
 
     /**
      * 增加令牌数量
+     *
      * @param num
      * @return
      */
-    boolean filledToken(int num);
+    void filledToken(int num);
+
+    /**
+     * 减少令牌数量
+     *
+     * @param num
+     * @return
+     */
+    boolean reduceToken(int num);
+
+    void setLastRefillTimePoint(long time);
 
 
 }

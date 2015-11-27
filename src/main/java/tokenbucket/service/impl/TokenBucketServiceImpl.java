@@ -1,7 +1,8 @@
 package tokenbucket.service.impl;
 
-import tokenbucket.TokenAddHandle;
+import tokenbucket.domain.TokenBucket;
 import tokenbucket.manage.TokenBucketManager;
+import tokenbucket.manage.TokenFilledStrategy;
 import tokenbucket.service.TokenBucketService;
 
 import java.util.concurrent.TimeUnit;
@@ -11,7 +12,7 @@ import java.util.concurrent.TimeUnit;
  */
 public class TokenBucketServiceImpl extends TokenBucketAbstractService implements TokenBucketService {
 
-    private TokenAddHandle tokenAddHandle;
+    private TokenFilledStrategy tokenFilledStrategy;
 
     private TokenBucketManager tokenBucketManager;
 
@@ -37,7 +38,14 @@ public class TokenBucketServiceImpl extends TokenBucketAbstractService implement
 
     @Override
     protected boolean doConsume(String source) {
-        return false;
+        TokenBucket tokenBucket = tokenBucketManager.getTokenBucket(source);
+        tokenBucket = tokenFilledStrategy.filled(tokenBucket);
+        int tokenNum = tokenBucket.getTokenNum();
+        if (tokenNum >= 1) {
+            return tokenBucket.reduceToken(1);
+        } else {
+            return false;
+        }
     }
 
 

@@ -33,12 +33,32 @@ public class DefaultTokenBucket implements TokenBucket, Serializable {
     }
 
     @Override
+    public long getAddTimeForNano() {
+        return 0;
+    }
+
+    @Override
+    public int getAddNum() {
+        return 0;
+    }
+
+    @Override
+    public long getAddPeriod() {
+        return 0;
+    }
+
+    @Override
     public int getTokenCountPerSecond() {
         return tokenCountPerSecond;
     }
 
     @Override
     public boolean filledToken(int num) {
+        return false;
+    }
+
+    @Override
+    public boolean reduceToken(int num) {
         return false;
     }
 
