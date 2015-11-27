@@ -53,8 +53,7 @@ public class DefaultTokenBucket implements TokenBucket, Serializable {
     }
 
     @Override
-    public boolean filledToken(int num) {
-        return false;
+    public void filledToken(int num) {
     }
 
     @Override
