@@ -15,7 +15,18 @@ public class DefaultTokenBucket implements TokenBucket, Serializable {
 
     private long lastRefillTimePoint;
 
-    private int tokenCountPerSecond;
+    private String tokenBucketKey;
+
+    private long addTimeWithMillisecond;
+
+    private int addNum;
+
+    private long addPeriod;
+
+    @Override
+    public String getTokenBucketKey() {
+        return tokenBucketKey;
+    }
 
     @Override
     public int getCapacity() {
@@ -33,32 +44,28 @@ public class DefaultTokenBucket implements TokenBucket, Serializable {
     }
 
     @Override
-    public long getAddTimeForNano() {
-        return 0;
+    public long getAddTimeWithMillisecond() {
+        return addTimeWithMillisecond;
     }
 
     @Override
     public int getAddNum() {
-        return 0;
+        return addNum;
     }
 
     @Override
     public long getAddPeriod() {
-        return 0;
-    }
-
-    @Override
-    public int getTokenCountPerSecond() {
-        return tokenCountPerSecond;
+        return addPeriod;
     }
 
     @Override
     public void filledToken(int num) {
+        tokenNum += num;
     }
 
     @Override
-    public boolean reduceToken(int num) {
-        return false;
+    public void reduceToken(int num) {
+        tokenNum -= num;
     }
 
     public void setCapacity(int capacity) {
@@ -73,7 +80,19 @@ public class DefaultTokenBucket implements TokenBucket, Serializable {
         this.lastRefillTimePoint = lastRefillTimePoint;
     }
 
-    public void setTokenCountPerSecond(int tokenCountPerSecond) {
-        this.tokenCountPerSecond = tokenCountPerSecond;
+    public void setTokenBucketKey(String tokenBucketKey) {
+        this.tokenBucketKey = tokenBucketKey;
+    }
+
+    public void setAddTimeWithMillisecond(long addTimeWithMillisecond) {
+        this.addTimeWithMillisecond = addTimeWithMillisecond;
+    }
+
+    public void setAddNum(int addNum) {
+        this.addNum = addNum;
+    }
+
+    public void setAddPeriod(long addPeriod) {
+        this.addPeriod = addPeriod;
     }
 }

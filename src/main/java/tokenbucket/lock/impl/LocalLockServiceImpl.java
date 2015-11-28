@@ -2,30 +2,72 @@ package tokenbucket.lock.impl;
 
 import tokenbucket.lock.LockService;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.concurrent.TimeUnit;
+import java.util.concurrent.locks.ReentrantLock;
 
 /**
  * @author wuhao
  */
 public class LocalLockServiceImpl implements LockService {
 
+    private static Map<String, ReentrantLock> lockMap = new HashMap<>();
+
+    private static LocalLockServiceImpl localLockService = new LocalLockServiceImpl();
+
+    private LocalLockServiceImpl() {
+
+    }
+
+    public static LocalLockServiceImpl getInstance() {
+        return localLockService;
+    }
+
     @Override
     public boolean lock(String source) {
-        return false;
+        ReentrantLock reentrantLock = initAndGetLock(source);
+        reentrantLock.lock();
+        return true;
     }
 
     @Override
     public boolean tryLock(String source) {
-        return false;
+        ReentrantLock reentrantLock = initAndGetLock(source);
+        return reentrantLock.tryLock();
     }
 
     @Override
     public boolean tryLock(String source, long timeout, TimeUnit unit) {
-        return false;
+        ReentrantLock reentrantLock = initAndGetLock(source);
+        try {
+            return reentrantLock.tryLock(timeout, unit);
+        } catch (InterruptedException e) {
+            return false;
+        }
     }
 
     @Override
     public boolean unlock(String source) {
-        return false;
+        ReentrantLock reentrantLock = lockMap.get(source);
+        if (null == reentrantLock) {
+            throw new RuntimeException("source error " + source);
+        }
+        reentrantLock.unlock();
+        return true;
+    }
+
+    private ReentrantLock initAndGetLock(String source) {
+        ReentrantLock reentrantLock = lockMap.get(source);
+        if (null == reentrantLock) {
+            synchronized (this) {
+                reentrantLock = lockMap.get(source);
+                if (null == reentrantLock) {
+                    reentrantLock = new ReentrantLock(true);
+                    lockMap.put(source, reentrantLock);
+                }
+            }
+        }
+        return reentrantLock;
     }
 }

@@ -6,19 +6,20 @@ import tokenbucket.manage.TokenFilledStrategy;
 /**
  * @author wuhao
  */
-public class DefaultTokenAddHandle implements TokenFilledStrategy {
+public class DefaultTokenFilledStrategy implements TokenFilledStrategy {
+
     @Override
     public TokenBucket filled(TokenBucket tokenBucket) {
-
-        long now = System.nanoTime();
+        long now = System.currentTimeMillis();
         long lastRefillTimePoint = tokenBucket.getLastRefillTimePoint();
         long nextRefillTimePoint = lastRefillTimePoint + tokenBucket.getAddPeriod();
         if (now < nextRefillTimePoint) {
             return tokenBucket;
         }
-        int numPeriods = (int) Math.max(0, (now - lastRefillTimePoint) / tokenBucket.getAddTimeForNano());
+        int numPeriods = (int) Math.max(0, (now - lastRefillTimePoint) / tokenBucket.getAddTimeWithMillisecond());
 
-        lastRefillTimePoint += numPeriods * tokenBucket.getAddTimeForNano();
+        lastRefillTimePoint += numPeriods * tokenBucket.getAddTimeWithMillisecond();
+        tokenBucket.setLastRefillTimePoint(lastRefillTimePoint);
         int addNum = numPeriods * tokenBucket.getAddNum();
         filledToken(tokenBucket, addNum);
         return tokenBucket;

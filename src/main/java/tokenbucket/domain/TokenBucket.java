@@ -5,6 +5,8 @@ package tokenbucket.domain;
  */
 public interface TokenBucket {
 
+    String getTokenBucketKey();
+
     /**
      * 获取容量
      *
@@ -31,7 +33,7 @@ public interface TokenBucket {
      *
      * @return
      */
-    long getAddTimeForNano();
+    long getAddTimeWithMillisecond();
 
     /**
      * 添加的个数
@@ -48,11 +50,6 @@ public interface TokenBucket {
     long getAddPeriod();
 
     /**
-     * 每秒添加令牌的个数
-     */
-    int getTokenCountPerSecond();
-
-    /**
      * 增加令牌数量
      *
      * @param num
@@ -66,7 +63,7 @@ public interface TokenBucket {
      * @param num
      * @return
      */
-    boolean reduceToken(int num);
+    void reduceToken(int num);
 
     void setLastRefillTimePoint(long time);
 

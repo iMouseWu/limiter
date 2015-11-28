@@ -15,6 +15,14 @@ public class TokenBucketManager implements LockService, TokenBucketDAO {
 
     private TokenBucketDAO tokenBucketDAO;
 
+    public void setLockService(LockService lockService) {
+        this.lockService = lockService;
+    }
+
+    public void setTokenBucketDAO(TokenBucketDAO tokenBucketDAO) {
+        this.tokenBucketDAO = tokenBucketDAO;
+    }
+
     @Override
     public boolean lock(String tokenBucketKey) {
         return lockService.lock(tokenBucketKey);

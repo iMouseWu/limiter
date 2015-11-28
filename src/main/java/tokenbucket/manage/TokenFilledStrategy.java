@@ -9,5 +9,4 @@ public interface TokenFilledStrategy {
 
     TokenBucket filled(TokenBucket tokenBucket);
 
-
 }
