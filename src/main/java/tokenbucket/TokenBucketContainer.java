@@ -9,12 +9,12 @@ import java.util.concurrent.TimeUnit;
  */
 public class TokenBucketContainer {
 
-    private String tokenBucketName;
+    private String tokenBucketkey;
 
     private TokenBucketService tokenBucketService;
 
-    public TokenBucketContainer(String tokenBucketName) {
-        this.tokenBucketName = tokenBucketName;
+    public TokenBucketContainer(String tokenBucketkey) {
+        this.tokenBucketkey = tokenBucketkey;
     }
 
     public void setTokenBucketService(TokenBucketService tokenBucketService) {
@@ -22,14 +22,15 @@ public class TokenBucketContainer {
     }
 
     public boolean consume() {
-        return tokenBucketService.consume(tokenBucketName);
+        return tokenBucketService.consume(tokenBucketkey);
     }
 
     public boolean tryConsume(long time, TimeUnit timeUnit) throws InterruptedException {
-        return tokenBucketService.tryConsume(tokenBucketName, time, timeUnit);
+        return tokenBucketService.tryConsume(tokenBucketkey, time, timeUnit);
     }
 
     public boolean tryConsume() {
-        return tokenBucketService.tryConsume(tokenBucketName);
+        return tokenBucketService.tryConsume(tokenBucketkey);
     }
+
 }

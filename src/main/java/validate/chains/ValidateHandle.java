@@ -1,4 +1,6 @@
-package validate;
+package validate.chains;
+
+import validate.ErrorInfo;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -21,14 +23,14 @@ public class ValidateHandle {
      * 如果返回的是不为null，就说明验证不通过。返回的就是错误的信息
      *
      * @param url
-     * @param appKet
+     * @param appKey
      * @return
      */
     public ErrorInfo handle(String appKey, String url) {
         ValidateHandlerChain chain = crateChain();
         ValidateContext context = new ValidateContext();
         context.setAppKey(appKey);
-        context.setUrl(url);
+        context.setMethod(url);
         chain.doHandle(context);
         if (context.isFail()) {
             return context.getMessage();
@@ -37,7 +39,7 @@ public class ValidateHandle {
     }
 
     private ValidateHandlerChain crateChain() {
-        List<Validate> validates = new ArrayList<Validate>();
+        List<Validate> validates = new ArrayList<>();
         validates.add(timeValidate);
         validates.add(ipValidate);
         return new ValidateHandlerChainImpl(validates);

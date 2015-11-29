@@ -1,5 +1,7 @@
 package tokenbucket.service.impl;
 
+import tokenbucket.config.ConfigCenter;
+import tokenbucket.config.TokenBucketConfig;
 import tokenbucket.domain.DefaultTokenBucket;
 import tokenbucket.domain.TokenBucket;
 import tokenbucket.manage.TokenBucketManager;
@@ -16,6 +18,12 @@ public class TokenBucketServiceImpl extends TokenBucketAbstractService implement
     private TokenFilledStrategy tokenFilledStrategy;
 
     private TokenBucketManager tokenBucketManager;
+
+    private ConfigCenter configCenter;
+
+    public void setConfigCenter(ConfigCenter configCenter) {
+        this.configCenter = configCenter;
+    }
 
     public void setTokenFilledStrategy(TokenFilledStrategy tokenFilledStrategy) {
         this.tokenFilledStrategy = tokenFilledStrategy;
@@ -46,21 +54,24 @@ public class TokenBucketServiceImpl extends TokenBucketAbstractService implement
     }
 
     @Override
-    protected boolean doConsume(String source) {
-        TokenBucket tokenBucket = tokenBucketManager.getTokenBucket(source);
+    protected boolean doConsume(String tokenBucketKey) {
+        TokenBucket tokenBucket = tokenBucketManager.getTokenBucket(tokenBucketKey);
         if (null == tokenBucket) {
+            //FIXME IF tokenBucketConfig IS NULL
+            TokenBucketConfig tokenBucketConfig = configCenter.getConfig(tokenBucketKey);
             DefaultTokenBucket defaultTokenBucket = new DefaultTokenBucket();
-            defaultTokenBucket.setCapacity(120);
+            defaultTokenBucket.setCapacity(tokenBucketConfig.getCapacity());
             defaultTokenBucket.setLastRefillTimePoint(System.currentTimeMillis());
-            defaultTokenBucket.setTokenNum(0);
-            defaultTokenBucket.setAddNum(1);
-            defaultTokenBucket.setAddPeriod(0);
-            defaultTokenBucket.setAddTimeWithMillisecond(6 * 1000);
-            defaultTokenBucket.setTokenBucketKey(source);
+            defaultTokenBucket.setTokenNum(tokenBucketConfig.getCapacity());
+            defaultTokenBucket.setAddNum(tokenBucketConfig.getAddNum());
+            defaultTokenBucket.setAddPeriod(tokenBucketConfig.getAddPeriod());
+            defaultTokenBucket.setAddTimeWithMillisecond(tokenBucketConfig.getAddTimeWithMillisecond());
+            defaultTokenBucket.setTokenBucketKey(tokenBucketKey);
             tokenBucketManager.saveTokenBucket(defaultTokenBucket);
             tokenBucket = defaultTokenBucket;
         }
         tokenBucket = tokenFilledStrategy.filled(tokenBucket);
+        tokenBucketManager.saveTokenBucket(tokenBucket);
         int tokenNum = tokenBucket.getTokenNum();
         if (tokenNum >= 1) {
             tokenBucket.reduceToken(1);

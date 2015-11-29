@@ -1,4 +1,4 @@
-package validate;
+package validate.chains;
 
 public interface ValidateHandlerChain {
 	

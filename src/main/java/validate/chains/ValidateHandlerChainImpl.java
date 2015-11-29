@@ -1,4 +1,4 @@
-package validate;
+package validate.chains;
 
 import java.util.Iterator;
 import java.util.List;
