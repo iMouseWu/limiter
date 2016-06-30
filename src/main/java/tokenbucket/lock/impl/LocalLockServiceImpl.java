@@ -12,7 +12,7 @@ import java.util.concurrent.locks.ReentrantLock;
  */
 public class LocalLockServiceImpl implements LockService {
 
-    private static Map<String, ReentrantLock> lockMap = new HashMap<>();
+    private static volatile Map<String, ReentrantLock> lockMap = new HashMap<>();
 
     private static LocalLockServiceImpl localLockService = new LocalLockServiceImpl();
 

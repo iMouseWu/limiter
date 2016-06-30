@@ -29,7 +29,7 @@ public interface TokenBucket {
     long getLastRefillTimePoint();
 
     /**
-     * 获取增加AddNum所需要的纳秒时间
+     * 获取增加AddNum所需要的毫秒时间
      *
      * @return
      */
@@ -43,7 +43,7 @@ public interface TokenBucket {
     int getAddNum();
 
     /**
-     * 令牌增加周期,可以为空.如果为空默认用AddPeriod的时间
+     * 令牌增加周期,可以为空.如果为空默认用AddTimeWithMillisecond的时间
      *
      * @return
      */
