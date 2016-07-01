@@ -17,95 +17,95 @@ import java.util.List;
  */
 public class ConfigLoadImpl implements ConfigLoad {
 
-    private RuleDao ruleDao;
+	private RuleDao ruleDao;
 
-    private ConfigCenter configCenter;
+	private ConfigCenter configCenter;
 
-    private ErrorInfoFactory errorInfoFactory;
+	private ErrorInfoFactory errorInfoFactory;
 
-    private AppkeyDao appkeyDao;
+	private AppkeyDao appkeyDao;
 
-    public void setConfigCenter(ConfigCenter configCenter) {
-        this.configCenter = configCenter;
-    }
+	public void setConfigCenter(ConfigCenter configCenter) {
+		this.configCenter = configCenter;
+	}
 
-    public void setErrorInfoFactory(ErrorInfoFactory errorInfoFactory) {
-        this.errorInfoFactory = errorInfoFactory;
-    }
+	public void setErrorInfoFactory(ErrorInfoFactory errorInfoFactory) {
+		this.errorInfoFactory = errorInfoFactory;
+	}
 
-    public void setAppkeyDao(AppkeyDao appkeyDao) {
-        this.appkeyDao = appkeyDao;
-    }
+	public void setAppkeyDao(AppkeyDao appkeyDao) {
+		this.appkeyDao = appkeyDao;
+	}
 
-    public void setRuleDao(RuleDao ruleDao) {
-        this.ruleDao = ruleDao;
-    }
+	public void setRuleDao(RuleDao ruleDao) {
+		this.ruleDao = ruleDao;
+	}
 
-    @Override
-    public void load() {
-        List<Config> configs = ruleDao.load();
-        List<String> appkeys = appkeyDao.getAllAppkey();
-        for (Config config : configs) {
-            for (String appkey : appkeys) {
-                configCenter.registerConfig(getTokenBucket(config, appkey));
-                errorInfoFactory.register(getErrorInfo(config, appkey));
-            }
-        }
-    }
+	@Override
+	public void load() {
+		List<Config> configs = ruleDao.load();
+		List<String> appkeys = appkeyDao.getAllAppkey();
+		for (Config config : configs) {
+			for (String appkey : appkeys) {
+				configCenter.registerConfig(getTokenBucket(config, appkey));
+				errorInfoFactory.register(getErrorInfo(config, appkey));
+			}
+		}
+	}
 
-    private TokenBucketConfig getTokenBucket(Config config, String appkey) {
-        return new TokenBucketConfig() {
+	private TokenBucketConfig getTokenBucket(final Config config, final String appkey) {
+		return new TokenBucketConfig() {
 
-            @Override
-            public String getTokenBucketKey() {
-                return TokenBucketKeyUtils.generateTokenBucketKey(appkey, config.getMethod());
-            }
+			@Override
+			public String getTokenBucketKey() {
+				return TokenBucketKeyUtils.generateTokenBucketKey(appkey, config.getMethod());
+			}
 
-            @Override
-            public int getCapacity() {
-                return config.getCapacity();
-            }
+			@Override
+			public int getCapacity() {
+				return config.getCapacity();
+			}
 
-            @Override
-            public int getAddNum() {
-                return config.getAddNum();
-            }
+			@Override
+			public int getAddNum() {
+				return config.getAddNum();
+			}
 
-            @Override
-            public long getAddTimeWithMillisecond() {
-                return config.getAddTimeWithMillisecond();
-            }
+			@Override
+			public long getAddTimeWithMillisecond() {
+				return config.getAddTimeWithMillisecond();
+			}
 
-            @Override
-            public int getAddPeriod() {
-                return config.getAddPeriod();
-            }
-        };
-    }
+			@Override
+			public int getAddPeriod() {
+				return config.getAddPeriod();
+			}
+		};
+	}
 
-    private ErrorInfo getErrorInfo(Config config, String appkey) {
-        return new ErrorInfo() {
+	private ErrorInfo getErrorInfo(final Config config, final String appkey) {
+		return new ErrorInfo() {
 
-            @Override
-            public String getErrorCode() {
-                return config.getErrorCode();
-            }
+			@Override
+			public String getErrorCode() {
+				return config.getErrorCode();
+			}
 
-            @Override
-            public String getErrorMessage() {
-                return config.getErrorMessage();
-            }
+			@Override
+			public String getErrorMessage() {
+				return config.getErrorMessage();
+			}
 
-            @Override
-            public String getMethod() {
-                return config.getMethod();
-            }
+			@Override
+			public String getMethod() {
+				return config.getMethod();
+			}
 
-            @Override
-            public String getAppkey() {
-                return appkey;
-            }
-        };
+			@Override
+			public String getAppkey() {
+				return appkey;
+			}
+		};
 
-    }
+	}
 }
