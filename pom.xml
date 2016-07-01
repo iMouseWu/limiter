@@ -1,8 +1,8 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
-    <groupId>com</groupId>
-    <artifactId>open-limit</artifactId>
+    <groupId>com.limiter</groupId>
+    <artifactId>limiter-parent</artifactId>
     <version>1.0.1-SNAPSHOT</version>
     <packaging>pom</packaging>
 
@@ -93,7 +93,7 @@
     </build>
 
     <modules>
-        <module>open-lock</module>
-        <module>open-tokenbucket</module>
+        <module>limiter-lock</module>
+        <module>limiter-tokenbucket</module>
   </modules>
 </project>
