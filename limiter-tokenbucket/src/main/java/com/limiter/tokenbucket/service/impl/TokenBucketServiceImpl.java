@@ -6,6 +6,7 @@ import com.limiter.tokenbucket.domain.DefaultTokenBucket;
 import com.limiter.tokenbucket.domain.TokenBucket;
 import com.limiter.tokenbucket.manage.TokenBucketManager;
 import com.limiter.tokenbucket.manage.TokenFilledStrategy;
+import com.limiter.tokenbucket.service.ConfigCallBack;
 import com.limiter.tokenbucket.service.TokenBucketService;
 
 /**
@@ -19,6 +20,8 @@ public class TokenBucketServiceImpl extends TokenBucketAbstractService implement
 
 	private ConfigCenter configCenter;
 
+	private ConfigCallBack configCallBack;
+
 	public void setConfigCenter(ConfigCenter configCenter) {
 		this.configCenter = configCenter;
 	}
@@ -29,6 +32,10 @@ public class TokenBucketServiceImpl extends TokenBucketAbstractService implement
 
 	public void setTokenBucketManager(TokenBucketManager tokenBucketManager) {
 		this.tokenBucketManager = tokenBucketManager;
+	}
+
+	public void setConfigCallBack(ConfigCallBack configCallBack) {
+		this.configCallBack = configCallBack;
 	}
 
 	@Override
@@ -48,6 +55,10 @@ public class TokenBucketServiceImpl extends TokenBucketAbstractService implement
 			tokenBucket = createDefaultTokenBucket(tokenBucketKey);
 			if (null != configCenter) {
 				TokenBucketConfig tokenBucketConfig = configCenter.getConfig(tokenBucketKey);
+				if (null == tokenBucketConfig && null != configCallBack) {
+					configCallBack.callBack(tokenBucketKey);
+					tokenBucketConfig = configCenter.getConfig(tokenBucketKey);
+				}
 				if (null != tokenBucketConfig) {
 					tokenBucket = createTokenBucket(tokenBucketConfig);
 				}

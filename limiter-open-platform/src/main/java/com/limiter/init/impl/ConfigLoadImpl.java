@@ -23,18 +23,12 @@ public class ConfigLoadImpl implements ConfigLoad {
 
 	private ErrorInfoFactory errorInfoFactory;
 
-	private AppkeyDao appkeyDao;
-
 	public void setConfigCenter(ConfigCenter configCenter) {
 		this.configCenter = configCenter;
 	}
 
 	public void setErrorInfoFactory(ErrorInfoFactory errorInfoFactory) {
 		this.errorInfoFactory = errorInfoFactory;
-	}
-
-	public void setAppkeyDao(AppkeyDao appkeyDao) {
-		this.appkeyDao = appkeyDao;
 	}
 
 	public void setRuleDao(RuleDao ruleDao) {
@@ -44,12 +38,13 @@ public class ConfigLoadImpl implements ConfigLoad {
 	@Override
 	public void load() {
 		List<Config> configs = ruleDao.load();
-		List<String> appkeys = appkeyDao.getAllAppkey();
 		for (Config config : configs) {
-			for (String appkey : appkeys) {
-				configCenter.registerConfig(getTokenBucket(config, appkey));
-				errorInfoFactory.register(getErrorInfo(config, appkey));
-			}
+			// 1. 先查询全局的限制
+			// 2. 再查询对方法的全局限制
+			// 3. 查询对AppKey的全局限制,如果AppKey(对某个商家的商家的限制)
+			// 2. 再次查询对这个Appkey和这个方法的限制
+			configCenter.registerConfig(getTokenBucket(config, appkey));
+			errorInfoFactory.register(getErrorInfo(config, appkey));
 		}
 	}
 

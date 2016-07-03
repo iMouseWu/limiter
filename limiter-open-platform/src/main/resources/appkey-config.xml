@@ -1,0 +1,13 @@
+<config>
+	<appkeys>
+		<appkey name="">
+			capacity
+			addNum
+			addTimeWithMillisecond
+			addPeriod
+			errorCode
+			errorMessage
+		</appkey>
+	</appkeys>
+
+</config>

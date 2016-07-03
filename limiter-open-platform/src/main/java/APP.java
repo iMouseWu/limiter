@@ -1,8 +1,8 @@
 import java.util.concurrent.CountDownLatch;
 
+import com.limiter.TokenBucketContainer;
 import com.limiter.lock.LockService;
 import com.limiter.lock.impl.LocalLockServiceImpl;
-import com.limiter.tokenbucket.TokenBucketContainer;
 import com.limiter.tokenbucket.config.ConfigCenter;
 import com.limiter.tokenbucket.config.TokenBucketConfig;
 import com.limiter.tokenbucket.dao.TokenBucketDAO;

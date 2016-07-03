@@ -1,7 +1,7 @@
 package com.limiter.validate.chains;
 
+import com.limiter.TokenBucketContainer;
 import com.limiter.common.utils.TokenBucketKeyUtils;
-import com.limiter.tokenbucket.TokenBucketContainer;
 import com.limiter.validate.ErrorInfo;
 import com.limiter.validate.error.ErrorInfoFactory;
 

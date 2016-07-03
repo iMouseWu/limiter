@@ -1,4 +1,4 @@
-package com.limiter.tokenbucket;
+package com.limiter;
 
 import java.util.concurrent.TimeUnit;
 
