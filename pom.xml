@@ -95,5 +95,6 @@
     <modules>
         <module>limiter-lock</module>
         <module>limiter-tokenbucket</module>
+        <module>limiter-open-platform</module>
   </modules>
 </project>
