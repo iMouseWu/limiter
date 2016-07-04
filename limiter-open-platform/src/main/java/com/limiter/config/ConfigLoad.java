@@ -1,4 +1,4 @@
-package com.limiter.init;
+package com.limiter.config;
 
 /**
  * @author wuhao

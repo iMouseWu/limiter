@@ -16,7 +16,7 @@ public class LocalConfigCenterImpl implements ConfigCenter {
     }
 
     @Override
-    public void registerConfig(TokenBucketConfig tokenBucketConfig) {
+    public void register(TokenBucketConfig tokenBucketConfig) {
         configMap.put(tokenBucketConfig.getTokenBucketKey(), tokenBucketConfig);
     }
 

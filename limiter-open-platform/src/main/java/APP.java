@@ -1,5 +1,3 @@
-import java.util.concurrent.CountDownLatch;
-
 import com.limiter.TokenBucketContainer;
 import com.limiter.lock.LockService;
 import com.limiter.lock.impl.LocalLockServiceImpl;
@@ -12,6 +10,8 @@ import com.limiter.tokenbucket.manage.TokenFilledStrategy;
 import com.limiter.tokenbucket.manage.impl.DefaultTokenFilledStrategy;
 import com.limiter.tokenbucket.service.TokenBucketService;
 import com.limiter.tokenbucket.service.impl.TokenBucketServiceImpl;
+
+import java.util.concurrent.CountDownLatch;
 
 /**
  * @author wuhao
@@ -51,18 +51,17 @@ public class APP {
 		tokenBucketService.setConfigCenter(new ConfigCenter() {
 
 			@Override
-			public void registerConfig(TokenBucketConfig tokenBucketConfig) {
-				// TODO Auto-generated method stub
-
-			}
-
-			@Override
 			public TokenBucketConfig getConfig(String tokenBucketKey) {
 				// TODO Auto-generated method stub
 				return null;
 			}
 
-			@Override
+            @Override
+            public void register(TokenBucketConfig tokenBucketConfig) {
+
+            }
+
+            @Override
 			public void clear() {
 				// TODO Auto-generated method stub
 

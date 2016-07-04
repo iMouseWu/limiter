@@ -1,0 +1,8 @@
+<methods>
+    <method name="">
+        <capacity></capacity>
+        <addNum></addNum>
+        <addTimeWithMillisecond></addTimeWithMillisecond>
+        <addPeriod></addPeriod>
+    </method>
+</methods>

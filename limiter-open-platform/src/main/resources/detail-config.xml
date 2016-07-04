@@ -1,8 +1,8 @@
-<appkeys>
-    <appkey name="">
+<details>
+    <detail appkey="" method="">
         <capacity></capacity>
         <addNum></addNum>
         <addTimeWithMillisecond></addTimeWithMillisecond>
         <addPeriod></addPeriod>
-    </appkey>
-</appkeys>
+    </detail>
+</details>

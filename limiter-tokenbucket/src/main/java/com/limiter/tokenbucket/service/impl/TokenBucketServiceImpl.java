@@ -50,42 +50,31 @@ public class TokenBucketServiceImpl extends TokenBucketAbstractService implement
 
 	@Override
 	protected boolean doConsume(String tokenBucketKey) {
-		TokenBucket tokenBucket = tokenBucketManager.getTokenBucket(tokenBucketKey);
-		if (null == tokenBucket) {
-			tokenBucket = createDefaultTokenBucket(tokenBucketKey);
-			if (null != configCenter) {
-				TokenBucketConfig tokenBucketConfig = configCenter.getConfig(tokenBucketKey);
-				if (null == tokenBucketConfig && null != configCallBack) {
-					configCallBack.callBack(tokenBucketKey);
-					tokenBucketConfig = configCenter.getConfig(tokenBucketKey);
-				}
-				if (null != tokenBucketConfig) {
-					tokenBucket = createTokenBucket(tokenBucketConfig);
-				}
-			}
-		}
-		tokenBucket = tokenFilledStrategy.filled(tokenBucket);
-		tokenBucketManager.saveTokenBucket(tokenBucket);
-		int tokenNum = tokenBucket.getTokenNum();
-		if (tokenNum >= 1) {
-			tokenBucket.reduceToken(1);
-			return true;
-		} else {
-			return false;
-		}
-	}
+        TokenBucket tokenBucket = tokenBucketManager.getTokenBucket(tokenBucketKey);
+        if (null == tokenBucket) {
+            if (null != configCenter) {
+                TokenBucketConfig tokenBucketConfig = configCenter.getConfig(tokenBucketKey);
+                if (null == tokenBucketConfig && null != configCallBack) {
+                    configCallBack.callBack(tokenBucketKey);
+                    tokenBucketConfig = configCenter.getConfig(tokenBucketKey);
+                }
+                if (null == tokenBucketConfig) {
+                    return true;
+                }
+                tokenBucket = createTokenBucket(tokenBucketConfig);
+            }
+        }
+        tokenBucket = tokenFilledStrategy.filled(tokenBucket);
+        tokenBucketManager.saveTokenBucket(tokenBucket);
+        int tokenNum = tokenBucket.getTokenNum();
+        if (tokenNum >= 1) {
+            tokenBucket.reduceToken(1);
+            return true;
+        } else {
+            return false;
+        }
+    }
 
-	private DefaultTokenBucket createDefaultTokenBucket(String tokenBucketKey) {
-		DefaultTokenBucket defaultTokenBucket = new DefaultTokenBucket();
-		defaultTokenBucket.setCapacity(120);
-		defaultTokenBucket.setLastRefillTimePoint(System.currentTimeMillis());
-		defaultTokenBucket.setTokenNum(120);
-		defaultTokenBucket.setAddNum(1);
-		defaultTokenBucket.setAddPeriod(1000);
-		defaultTokenBucket.setAddTimeWithMillisecond(1000);
-		defaultTokenBucket.setTokenBucketKey(tokenBucketKey);
-		return defaultTokenBucket;
-	}
 
 	private DefaultTokenBucket createTokenBucket(TokenBucketConfig tokenBucketConfig) {
 		DefaultTokenBucket defaultTokenBucket = new DefaultTokenBucket();

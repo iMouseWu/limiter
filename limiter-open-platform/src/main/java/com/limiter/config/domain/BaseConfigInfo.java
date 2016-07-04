@@ -1,10 +1,9 @@
-package com.limiter.init;
+package com.limiter.config.domain;
 
 /**
  * @author wuhao
  */
-public class Config {
-    private String method;
+public class BaseConfigInfo {
 
     private int capacity;
 
@@ -13,18 +12,6 @@ public class Config {
     private long addTimeWithMillisecond;
 
     private int addPeriod;
-
-    private String errorCode;
-
-    private String errorMessage;
-
-    public String getMethod() {
-        return method;
-    }
-
-    public void setMethod(String method) {
-        this.method = method;
-    }
 
     public int getCapacity() {
         return capacity;
@@ -58,19 +45,4 @@ public class Config {
         this.addPeriod = addPeriod;
     }
 
-    public String getErrorCode() {
-        return errorCode;
-    }
-
-    public void setErrorCode(String errorCode) {
-        this.errorCode = errorCode;
-    }
-
-    public String getErrorMessage() {
-        return errorMessage;
-    }
-
-    public void setErrorMessage(String errorMessage) {
-        this.errorMessage = errorMessage;
-    }
 }
