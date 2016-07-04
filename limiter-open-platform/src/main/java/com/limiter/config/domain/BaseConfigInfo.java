@@ -11,7 +11,7 @@ public class BaseConfigInfo {
 
     private long addTimeWithMillisecond;
 
-    private int addPeriod;
+    private long addPeriod;
 
     public int getCapacity() {
         return capacity;
@@ -37,11 +37,11 @@ public class BaseConfigInfo {
         this.addTimeWithMillisecond = addTimeWithMillisecond;
     }
 
-    public int getAddPeriod() {
+    public long getAddPeriod() {
         return addPeriod;
     }
 
-    public void setAddPeriod(int addPeriod) {
+    public void setAddPeriod(long addPeriod) {
         this.addPeriod = addPeriod;
     }
 

@@ -1,8 +1,8 @@
 <methods>
-    <method name="">
-        <capacity></capacity>
-        <addNum></addNum>
-        <addTimeWithMillisecond></addTimeWithMillisecond>
-        <addPeriod></addPeriod>
+    <method name="getTest">
+        <capacity>120</capacity>
+        <addNum>1</addNum>
+        <addTimeWithMillisecond>1000</addTimeWithMillisecond>
+        <addPeriod>2000</addPeriod>
     </method>
 </methods>

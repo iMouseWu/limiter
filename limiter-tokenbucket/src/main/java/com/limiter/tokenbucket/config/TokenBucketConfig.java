@@ -38,7 +38,7 @@ public interface TokenBucketConfig {
      *
      * @return
      */
-    int getAddPeriod();
+    long getAddPeriod();
 
 
 }

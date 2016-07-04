@@ -1,8 +1,10 @@
 import com.limiter.TokenBucketContainer;
+import com.limiter.config.ConfigLoadImpl;
+import com.limiter.config.RuleDaoImpl;
+import com.limiter.config.parse.LocalFileParseServiceImpl;
 import com.limiter.lock.LockService;
 import com.limiter.lock.impl.LocalLockServiceImpl;
-import com.limiter.tokenbucket.config.ConfigCenter;
-import com.limiter.tokenbucket.config.TokenBucketConfig;
+import com.limiter.tokenbucket.config.LocalConfigCenterImpl;
 import com.limiter.tokenbucket.dao.TokenBucketDAO;
 import com.limiter.tokenbucket.dao.impl.LocalTokenBucketDAOImpl;
 import com.limiter.tokenbucket.manage.TokenBucketManager;
@@ -18,73 +20,67 @@ import java.util.concurrent.CountDownLatch;
  */
 public class APP {
 
-	private static int threadNum = 1000;
+    private static int threadNum = 1000;
 
-	private static CountDownLatch countDownLatch = new CountDownLatch(threadNum);
+    private static CountDownLatch countDownLatch = new CountDownLatch(threadNum);
 
-	public static void main(String[] args) {
-		try {
-			Thread.sleep(10 * 1000);
-		} catch (InterruptedException e) {
-			e.printStackTrace();
-		}
+    public static void main(String[] args) {
+        try {
+            Thread.sleep(10 * 1000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
 
-		for (int i = 0; i < threadNum; i++) {
-			countDownLatch.countDown();
-			Thread thread = new Thread(new Inner(), i + "");
-			thread.start();
-		}
-	}
+        for (int i = 0; i < threadNum; i++) {
+            countDownLatch.countDown();
+            Thread thread = new Thread(new Inner(), i + "");
+            thread.start();
+        }
+    }
 
-	private static TokenBucketService ceateTokenBucketService() {
-		TokenBucketServiceImpl tokenBucketService = new TokenBucketServiceImpl();
+    private static TokenBucketService ceateTokenBucketService() {
 
-		TokenBucketManager tokenBucketManager = new TokenBucketManager();
-		LockService lockService = LocalLockServiceImpl.getInstance();
-		TokenBucketDAO tokenBucketDAO = LocalTokenBucketDAOImpl.getInstance();
-		tokenBucketManager.setLockService(lockService);
-		tokenBucketManager.setTokenBucketDAO(tokenBucketDAO);
+        //解析器
+        LocalFileParseServiceImpl localFileParseService = new LocalFileParseServiceImpl();
+        RuleDaoImpl ruleDao = new RuleDaoImpl();
+        ruleDao.setParseService(localFileParseService);
 
-		TokenFilledStrategy tokenFilledStrategy = new DefaultTokenFilledStrategy();
-		tokenBucketService.setTokenBucketManager(tokenBucketManager);
-		tokenBucketService.setTokenFilledStrategy(tokenFilledStrategy);
-		tokenBucketService.setConfigCenter(new ConfigCenter() {
+        LocalConfigCenterImpl configCenter = new LocalConfigCenterImpl();
 
-			@Override
-			public TokenBucketConfig getConfig(String tokenBucketKey) {
-				// TODO Auto-generated method stub
-				return null;
-			}
+        ConfigLoadImpl configLoad = new ConfigLoadImpl();
+        configLoad.setConfigCenter(configCenter);
+        configLoad.setRuleDao(ruleDao);
+        configLoad.load();
 
-            @Override
-            public void register(TokenBucketConfig tokenBucketConfig) {
+        TokenBucketServiceImpl tokenBucketService = new TokenBucketServiceImpl();
+        TokenBucketManager tokenBucketManager = new TokenBucketManager();
+        LockService lockService = LocalLockServiceImpl.getInstance();
+        TokenBucketDAO tokenBucketDAO = LocalTokenBucketDAOImpl.getInstance();
+        tokenBucketManager.setLockService(lockService);
+        tokenBucketManager.setTokenBucketDAO(tokenBucketDAO);
 
+        TokenFilledStrategy tokenFilledStrategy = new DefaultTokenFilledStrategy();
+        tokenBucketService.setTokenBucketManager(tokenBucketManager);
+        tokenBucketService.setTokenFilledStrategy(tokenFilledStrategy);
+        tokenBucketService.setConfigCenter(configCenter);
+        return tokenBucketService;
+    }
+
+    public static class Inner implements Runnable {
+
+        @Override
+        public void run() {
+            try {
+                countDownLatch.await();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
             }
+            TokenBucketContainer tokenBucketContainer = new TokenBucketContainer("test_" + "getTest");
+            tokenBucketContainer.setTokenBucketService(ceateTokenBucketService());
+            boolean success = tokenBucketContainer.consume();
+            System.out.println(Thread.currentThread().getName() + ":" + success);
 
-            @Override
-			public void clear() {
-				// TODO Auto-generated method stub
-
-			}
-		});
-		return tokenBucketService;
-	}
-
-	public static class Inner implements Runnable {
-
-		@Override
-		public void run() {
-			try {
-				countDownLatch.await();
-			} catch (InterruptedException e) {
-				e.printStackTrace();
-			}
-			TokenBucketContainer tokenBucketContainer = new TokenBucketContainer("test1");
-			tokenBucketContainer.setTokenBucketService(ceateTokenBucketService());
-			boolean success = tokenBucketContainer.consume();
-			System.out.println(Thread.currentThread().getName() + ":" + success);
-
-		}
-	}
+        }
+    }
 
 }

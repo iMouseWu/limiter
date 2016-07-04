@@ -1,16 +1,15 @@
 <configuration>
-
     <globalConfig>
-        <capacity></capacity>
-        <addNum></addNum>
-        <addTimeWithMillisecond></addTimeWithMillisecond>
-        <addPeriod></addPeriod>
+        <capacity>120</capacity>
+        <addNum>1</addNum>
+        <addTimeWithMillisecond>1000</addTimeWithMillisecond>
+        <addPeriod>2000</addPeriod>
     </globalConfig>
 
 
     <configs>
-        <config path="appkey-config.xml"/>
-        <config path="method-config.xml"/>
-        <config path="detail-config.xml"/>
+        <appkeyConfig path="appkey-config.xml"/>
+        <methodConfig path="method-config.xml"/>
+        <detailConfig path="detail-config.xml"/>
     </configs>
 </configuration>

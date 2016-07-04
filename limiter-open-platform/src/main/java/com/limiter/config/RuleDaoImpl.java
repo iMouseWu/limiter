@@ -1,31 +1,32 @@
 package com.limiter.config;
 
-import com.alibaba.fastjson.JSON;
 import com.limiter.config.domain.Config;
+import com.limiter.config.parse.ParseService;
 
 /**
  * @author wuhao
  */
-public class LocaFileRuleDaoImpl implements RuleDao {
+public class RuleDaoImpl implements RuleDao {
+
+    private ParseService parseService;
 
     private volatile boolean isLoad = false;
 
     private Config config;
 
+    public void setParseService(ParseService parseService) {
+        this.parseService = parseService;
+    }
+
     @Override
     public Config selectConfig() {
         if (!isLoad) {
             synchronized (this) {
-                config = load();
+                config = parseService.parse();
                 isLoad = true;
             }
         }
         return config;
     }
 
-    private Config load() {
-        String content = "";
-        config = JSON.parseObject(content, Config.class);
-        return config;
-    }
 }

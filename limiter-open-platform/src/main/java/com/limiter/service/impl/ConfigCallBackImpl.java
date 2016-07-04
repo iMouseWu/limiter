@@ -75,7 +75,7 @@ public class ConfigCallBackImpl implements ConfigCallBack {
             }
 
             @Override
-            public int getAddPeriod() {
+            public long getAddPeriod() {
                 return config.getAddPeriod();
             }
         });
