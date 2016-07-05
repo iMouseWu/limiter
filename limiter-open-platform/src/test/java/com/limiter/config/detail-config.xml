@@ -1,0 +1,8 @@
+<details>
+    <detail appkey="test" method="getTest">
+        <capacity>120</capacity>
+        <addNum>1</addNum>
+        <addTimeWithMillisecond>1000</addTimeWithMillisecond>
+        <addPeriod>2000</addPeriod>
+    </detail>
+</details>

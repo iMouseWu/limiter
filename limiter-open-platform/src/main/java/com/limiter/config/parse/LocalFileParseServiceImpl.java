@@ -18,8 +18,13 @@ import java.util.List;
 public class LocalFileParseServiceImpl implements ParseService {
     @Override
     public Config parse() {
+        return parse("configs.xml");
+    }
+
+    @Override
+    public Config parse(String path) {
         try {
-            Xparse xparse = new Xparse("configs.xml");
+            Xparse xparse = new Xparse(path);
             XDocument xDocument = xparse.parse();
 
             XElement bootElement = xDocument.selectSingleElement("configuration");
