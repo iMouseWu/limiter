@@ -7,5 +7,4 @@ public interface ConfigLoad {
 
     void load();
 
-
 }

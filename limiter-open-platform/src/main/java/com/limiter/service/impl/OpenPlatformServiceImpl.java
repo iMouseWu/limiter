@@ -6,15 +6,15 @@ import com.limiter.tokenbucket.service.TokenBucketService;
 
 public class OpenPlatformServiceImpl implements OpenPlatformService {
 
-	private TokenBucketService tokenBucketService;
+    private TokenBucketService tokenBucketService;
 
-	public void setTokenBucketService(TokenBucketService tokenBucketService) {
-		this.tokenBucketService = tokenBucketService;
-	}
+    public void setTokenBucketService(TokenBucketService tokenBucketService) {
+        this.tokenBucketService = tokenBucketService;
+    }
 
-	@Override
-	public boolean visit(String appkey, String method) {
-		return tokenBucketService.consume(TokenBucketKeyUtils.generateTokenBucketKey(appkey, method));
-	}
+    @Override
+    public boolean visit(String appkey, String method) {
+        return tokenBucketService.consume(TokenBucketKeyUtils.generateTokenBucketKey(appkey, method));
+    }
 
 }

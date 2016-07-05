@@ -28,6 +28,8 @@ public interface TokenBucket {
      */
     long getLastRefillTimePoint();
 
+    void setLastRefillTimePoint(long time);
+
     /**
      * 获取增加AddNum所需要的毫秒时间
      *
@@ -64,8 +66,5 @@ public interface TokenBucket {
      * @return
      */
     void reduceToken(int num);
-
-    void setLastRefillTimePoint(long time);
-
 
 }

@@ -15,20 +15,20 @@ public class RedisLockServiceImpl implements LockService {
 
     @Override
     public boolean tryLock(String source) {
-//        {
-//            long nowNanoTime = System.nanoTime();
-//            for (; ; ) {
-//                if (nanoTime > DEFAULT_MIN_NANOTIME) {
-//                    TimeUnit.NANOSECONDS.sleep(nanoTime);
-//                }
-//                if ((System.nanoTime() - nowNanoTime) > nanoTime) {
-//                    return tryConsume();
-//                }
-//                if (Thread.interrupted()) {
-//                    throw new InterruptedException();
-//                }
-//            }
-//        }
+        //        {
+        //            long nowNanoTime = System.nanoTime();
+        //            for (; ; ) {
+        //                if (nanoTime > DEFAULT_MIN_NANOTIME) {
+        //                    TimeUnit.NANOSECONDS.sleep(nanoTime);
+        //                }
+        //                if ((System.nanoTime() - nowNanoTime) > nanoTime) {
+        //                    return tryConsume();
+        //                }
+        //                if (Thread.interrupted()) {
+        //                    throw new InterruptedException();
+        //                }
+        //            }
+        //        }
         return false;
     }
 

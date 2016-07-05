@@ -28,9 +28,17 @@ public class DefaultTokenBucket implements TokenBucket, Serializable {
         return tokenBucketKey;
     }
 
+    public void setTokenBucketKey(String tokenBucketKey) {
+        this.tokenBucketKey = tokenBucketKey;
+    }
+
     @Override
     public int getCapacity() {
         return capacity;
+    }
+
+    public void setCapacity(int capacity) {
+        this.capacity = capacity;
     }
 
     @Override
@@ -38,9 +46,17 @@ public class DefaultTokenBucket implements TokenBucket, Serializable {
         return tokenNum;
     }
 
+    public void setTokenNum(int tokenNum) {
+        this.tokenNum = tokenNum;
+    }
+
     @Override
     public long getLastRefillTimePoint() {
         return lastRefillTimePoint;
+    }
+
+    public void setLastRefillTimePoint(long lastRefillTimePoint) {
+        this.lastRefillTimePoint = lastRefillTimePoint;
     }
 
     @Override
@@ -48,14 +64,26 @@ public class DefaultTokenBucket implements TokenBucket, Serializable {
         return addTimeWithMillisecond;
     }
 
+    public void setAddTimeWithMillisecond(long addTimeWithMillisecond) {
+        this.addTimeWithMillisecond = addTimeWithMillisecond;
+    }
+
     @Override
     public int getAddNum() {
         return addNum;
     }
 
+    public void setAddNum(int addNum) {
+        this.addNum = addNum;
+    }
+
     @Override
     public long getAddPeriod() {
         return addPeriod;
+    }
+
+    public void setAddPeriod(long addPeriod) {
+        this.addPeriod = addPeriod;
     }
 
     @Override
@@ -66,33 +94,5 @@ public class DefaultTokenBucket implements TokenBucket, Serializable {
     @Override
     public void reduceToken(int num) {
         tokenNum -= num;
-    }
-
-    public void setCapacity(int capacity) {
-        this.capacity = capacity;
-    }
-
-    public void setTokenNum(int tokenNum) {
-        this.tokenNum = tokenNum;
-    }
-
-    public void setLastRefillTimePoint(long lastRefillTimePoint) {
-        this.lastRefillTimePoint = lastRefillTimePoint;
-    }
-
-    public void setTokenBucketKey(String tokenBucketKey) {
-        this.tokenBucketKey = tokenBucketKey;
-    }
-
-    public void setAddTimeWithMillisecond(long addTimeWithMillisecond) {
-        this.addTimeWithMillisecond = addTimeWithMillisecond;
-    }
-
-    public void setAddNum(int addNum) {
-        this.addNum = addNum;
-    }
-
-    public void setAddPeriod(long addPeriod) {
-        this.addPeriod = addPeriod;
     }
 }

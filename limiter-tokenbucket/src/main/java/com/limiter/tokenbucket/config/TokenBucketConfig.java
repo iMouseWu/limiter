@@ -40,5 +40,4 @@ public interface TokenBucketConfig {
      */
     long getAddPeriod();
 
-
 }

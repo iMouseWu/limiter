@@ -14,42 +14,42 @@ import com.limiter.tokenbucket.service.TokenBucketService;
  */
 public class TokenBucketServiceImpl extends TokenBucketAbstractService implements TokenBucketService {
 
-	private TokenFilledStrategy tokenFilledStrategy;
+    private TokenFilledStrategy tokenFilledStrategy;
 
-	private TokenBucketManager tokenBucketManager;
+    private TokenBucketManager tokenBucketManager;
 
-	private ConfigCenter configCenter;
+    private ConfigCenter configCenter;
 
-	private ConfigCallBack configCallBack;
+    private ConfigCallBack configCallBack;
 
-	public void setConfigCenter(ConfigCenter configCenter) {
-		this.configCenter = configCenter;
-	}
+    public void setConfigCenter(ConfigCenter configCenter) {
+        this.configCenter = configCenter;
+    }
 
-	public void setTokenFilledStrategy(TokenFilledStrategy tokenFilledStrategy) {
-		this.tokenFilledStrategy = tokenFilledStrategy;
-	}
+    public void setTokenFilledStrategy(TokenFilledStrategy tokenFilledStrategy) {
+        this.tokenFilledStrategy = tokenFilledStrategy;
+    }
 
-	public void setTokenBucketManager(TokenBucketManager tokenBucketManager) {
-		this.tokenBucketManager = tokenBucketManager;
-	}
+    public void setTokenBucketManager(TokenBucketManager tokenBucketManager) {
+        this.tokenBucketManager = tokenBucketManager;
+    }
 
-	public void setConfigCallBack(ConfigCallBack configCallBack) {
-		this.configCallBack = configCallBack;
-	}
+    public void setConfigCallBack(ConfigCallBack configCallBack) {
+        this.configCallBack = configCallBack;
+    }
 
-	@Override
-	public boolean lock(String source) {
-		return tokenBucketManager.lock(source);
-	}
+    @Override
+    public boolean lock(String source) {
+        return tokenBucketManager.lock(source);
+    }
 
-	@Override
-	public boolean unlock(String source) {
-		return tokenBucketManager.unlock(source);
-	}
+    @Override
+    public boolean unlock(String source) {
+        return tokenBucketManager.unlock(source);
+    }
 
-	@Override
-	protected boolean doConsume(String tokenBucketKey) {
+    @Override
+    protected boolean doConsume(String tokenBucketKey) {
         TokenBucket tokenBucket = tokenBucketManager.getTokenBucket(tokenBucketKey);
         if (null == tokenBucket) {
             if (null != configCenter) {
@@ -75,17 +75,16 @@ public class TokenBucketServiceImpl extends TokenBucketAbstractService implement
         }
     }
 
-
-	private DefaultTokenBucket createTokenBucket(TokenBucketConfig tokenBucketConfig) {
-		DefaultTokenBucket defaultTokenBucket = new DefaultTokenBucket();
-		defaultTokenBucket.setCapacity(tokenBucketConfig.getCapacity());
-		defaultTokenBucket.setLastRefillTimePoint(System.currentTimeMillis());
-		defaultTokenBucket.setTokenNum(tokenBucketConfig.getCapacity());
-		defaultTokenBucket.setAddNum(tokenBucketConfig.getAddNum());
-		defaultTokenBucket.setAddPeriod(tokenBucketConfig.getAddPeriod());
-		defaultTokenBucket.setAddTimeWithMillisecond(tokenBucketConfig.getAddTimeWithMillisecond());
-		defaultTokenBucket.setTokenBucketKey(tokenBucketConfig.getTokenBucketKey());
-		return defaultTokenBucket;
-	}
+    private DefaultTokenBucket createTokenBucket(TokenBucketConfig tokenBucketConfig) {
+        DefaultTokenBucket defaultTokenBucket = new DefaultTokenBucket();
+        defaultTokenBucket.setCapacity(tokenBucketConfig.getCapacity());
+        defaultTokenBucket.setLastRefillTimePoint(System.currentTimeMillis());
+        defaultTokenBucket.setTokenNum(tokenBucketConfig.getCapacity());
+        defaultTokenBucket.setAddNum(tokenBucketConfig.getAddNum());
+        defaultTokenBucket.setAddPeriod(tokenBucketConfig.getAddPeriod());
+        defaultTokenBucket.setAddTimeWithMillisecond(tokenBucketConfig.getAddTimeWithMillisecond());
+        defaultTokenBucket.setTokenBucketKey(tokenBucketConfig.getTokenBucketKey());
+        return defaultTokenBucket;
+    }
 
 }

@@ -70,12 +70,12 @@ public class ValidateContext {
         return success;
     }
 
-    public boolean isFail() {
-        return !success;
-    }
-
     public void setSuccess(boolean success) {
         this.success = success;
+    }
+
+    public boolean isFail() {
+        return !success;
     }
 
 }

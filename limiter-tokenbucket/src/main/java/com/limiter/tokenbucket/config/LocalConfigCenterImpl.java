@@ -25,5 +25,4 @@ public class LocalConfigCenterImpl implements ConfigCenter {
         configMap.clear();
     }
 
-
 }
