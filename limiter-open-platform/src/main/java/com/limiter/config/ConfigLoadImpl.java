@@ -3,8 +3,8 @@ package com.limiter.config;
 import com.limiter.common.utils.TokenBucketKeyUtils;
 import com.limiter.config.domain.Config;
 import com.limiter.config.domain.DetailConfig;
-import com.limiter.tokenbucket.config.ConfigCenter;
-import com.limiter.tokenbucket.config.TokenBucketConfig;
+import com.limiter.tokenbucket.dao.ConfigCenter;
+import com.limiter.tokenbucket.domain.TokenBucketConfig;
 
 import java.util.List;
 

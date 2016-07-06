@@ -3,8 +3,8 @@ package com.limiter.service.impl;
 import com.limiter.common.utils.TokenBucketKeyUtils;
 import com.limiter.config.RuleDao;
 import com.limiter.config.domain.*;
-import com.limiter.tokenbucket.config.ConfigCenter;
-import com.limiter.tokenbucket.config.TokenBucketConfig;
+import com.limiter.tokenbucket.dao.ConfigCenter;
+import com.limiter.tokenbucket.domain.TokenBucketConfig;
 import com.limiter.tokenbucket.service.ConfigCallBack;
 
 public class ConfigCallBackImpl implements ConfigCallBack {

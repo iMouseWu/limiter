@@ -1,13 +1,14 @@
 package com.limiter.tokenbucket.service.impl;
 
-import com.limiter.tokenbucket.config.ConfigCenter;
-import com.limiter.tokenbucket.config.TokenBucketConfig;
+import com.limiter.tokenbucket.dao.ConfigCenter;
+import com.limiter.tokenbucket.domain.TokenBucketConfig;
 import com.limiter.tokenbucket.domain.DefaultTokenBucket;
 import com.limiter.tokenbucket.domain.TokenBucket;
 import com.limiter.tokenbucket.manage.TokenBucketManager;
 import com.limiter.tokenbucket.manage.TokenFilledStrategy;
 import com.limiter.tokenbucket.service.ConfigCallBack;
 import com.limiter.tokenbucket.service.TokenBucketService;
+import com.limiter.tokenbucket.time.TimeTools;
 
 /**
  * @author wuhao
@@ -21,6 +22,8 @@ public class TokenBucketServiceImpl extends TokenBucketAbstractService implement
     private ConfigCenter configCenter;
 
     private ConfigCallBack configCallBack;
+
+    private TimeTools timeTools;
 
     public void setConfigCenter(ConfigCenter configCenter) {
         this.configCenter = configCenter;
@@ -36,6 +39,10 @@ public class TokenBucketServiceImpl extends TokenBucketAbstractService implement
 
     public void setConfigCallBack(ConfigCallBack configCallBack) {
         this.configCallBack = configCallBack;
+    }
+
+    public void setTimeTools(TimeTools timeTools) {
+        this.timeTools = timeTools;
     }
 
     @Override
@@ -78,7 +85,7 @@ public class TokenBucketServiceImpl extends TokenBucketAbstractService implement
     private DefaultTokenBucket createTokenBucket(TokenBucketConfig tokenBucketConfig) {
         DefaultTokenBucket defaultTokenBucket = new DefaultTokenBucket();
         defaultTokenBucket.setCapacity(tokenBucketConfig.getCapacity());
-        defaultTokenBucket.setLastRefillTimePoint(System.currentTimeMillis());
+        defaultTokenBucket.setLastRefillTimePoint(timeTools.getCurrentTimeMillis());
         defaultTokenBucket.setTokenNum(tokenBucketConfig.getCapacity());
         defaultTokenBucket.setAddNum(tokenBucketConfig.getAddNum());
         defaultTokenBucket.setAddPeriod(tokenBucketConfig.getAddPeriod());

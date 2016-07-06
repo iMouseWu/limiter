@@ -1,4 +1,4 @@
-package com.limiter.tokenbucket.config;
+package com.limiter.tokenbucket.domain;
 
 /**
  * @author wuhao

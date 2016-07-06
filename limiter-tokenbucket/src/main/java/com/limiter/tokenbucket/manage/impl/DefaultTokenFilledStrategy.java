@@ -2,20 +2,27 @@ package com.limiter.tokenbucket.manage.impl;
 
 import com.limiter.tokenbucket.domain.TokenBucket;
 import com.limiter.tokenbucket.manage.TokenFilledStrategy;
+import com.limiter.tokenbucket.time.TimeTools;
 
 /**
  * @author wuhao
  */
 public class DefaultTokenFilledStrategy implements TokenFilledStrategy {
 
+    private TimeTools timeTools;
+
+    public void setTimeTools(TimeTools timeTools) {
+        this.timeTools = timeTools;
+    }
+
     @Override
     public TokenBucket filled(TokenBucket tokenBucket) {
-        long now = System.currentTimeMillis();
+        long now = timeTools.getCurrentTimeMillis();
         long lastRefillTimePoint = tokenBucket.getLastRefillTimePoint();
 
         long addPeriod = tokenBucket.getAddPeriod();
         long addTimeWithMillisecond = tokenBucket.getAddTimeWithMillisecond();
-        if (addPeriod == 0) {
+        if (addPeriod == 0 || addPeriod < addTimeWithMillisecond) {
             addPeriod = addTimeWithMillisecond;
         }
         long nextRefillTimePoint = lastRefillTimePoint + addPeriod;
