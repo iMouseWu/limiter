@@ -3,10 +3,9 @@ import com.limiter.config.ConfigLoadImpl;
 import com.limiter.config.RuleDaoImpl;
 import com.limiter.config.parse.LocalFileParseServiceImpl;
 import com.limiter.lock.LockService;
-import com.limiter.lock.impl.LocalLockServiceImpl;
+import com.limiter.tokenbucket.ObjectFactory;
 import com.limiter.tokenbucket.dao.TokenBucketDAO;
 import com.limiter.tokenbucket.dao.impl.LocalConfigCenterImpl;
-import com.limiter.tokenbucket.dao.impl.LocalTokenBucketDAOImpl;
 import com.limiter.tokenbucket.manage.TokenBucketManager;
 import com.limiter.tokenbucket.manage.impl.DefaultTokenFilledStrategy;
 import com.limiter.tokenbucket.service.TokenBucketService;
@@ -44,8 +43,7 @@ public class APP {
         LocalFileParseServiceImpl localFileParseService = new LocalFileParseServiceImpl();
         RuleDaoImpl ruleDao = new RuleDaoImpl();
         ruleDao.setParseService(localFileParseService);
-
-        LocalConfigCenterImpl configCenter = LocalConfigCenterImpl.getInstance();
+        LocalConfigCenterImpl configCenter = ObjectFactory.getConfigCenterInstance();
 
         ConfigLoadImpl configLoad = new ConfigLoadImpl();
         configLoad.setConfigCenter(configCenter);
@@ -54,8 +52,8 @@ public class APP {
 
         TokenBucketServiceImpl tokenBucketService = new TokenBucketServiceImpl();
         TokenBucketManager tokenBucketManager = new TokenBucketManager();
-        LockService lockService = LocalLockServiceImpl.getInstance();
-        TokenBucketDAO tokenBucketDAO = LocalTokenBucketDAOImpl.getInstance();
+        LockService lockService = com.limiter.lock.ObjectFactory.getLocalLockServiceInstance();
+        TokenBucketDAO tokenBucketDAO = ObjectFactory.getTokenBucketDAOInstance();
         tokenBucketManager.setLockService(lockService);
         tokenBucketManager.setTokenBucketDAO(tokenBucketDAO);
 
@@ -69,7 +67,7 @@ public class APP {
         return tokenBucketService;
     }
 
-    public static class Inner implements Runnable {
+    private static class Inner implements Runnable {
 
         @Override
         public void run() {

@@ -1,5 +1,6 @@
 package com.limiter.tokenbucket.dao.impl;
 
+import com.limiter.tokenbucket.ObjectFactory;
 import com.limiter.tokenbucket.dao.ConfigCenter;
 import com.limiter.tokenbucket.domain.TokenBucketConfig;
 import org.junit.BeforeClass;
@@ -23,7 +24,7 @@ public class LocalConfigCenterImplTest {
     public static void beforeClass() {
         tokenBucketKey = "test";
 
-        configCenter = LocalConfigCenterImpl.getInstance();
+        configCenter = ObjectFactory.getConfigCenterInstance();
 
         tokenBucketConfig = new TokenBucketConfig() {
 
@@ -60,7 +61,7 @@ public class LocalConfigCenterImplTest {
         boolean result = configCenter.register(tokenBucketConfig);
         assertTrue(result);
 
-        LocalConfigCenterImpl configCenter = LocalConfigCenterImpl.getInstance();
+        LocalConfigCenterImpl configCenter = ObjectFactory.getConfigCenterInstance();
         TokenBucketConfig tokenBucketResult = configCenter.getConfig(tokenBucketKey);
         assertEquals(tokenBucketConfig.getAddNum(), tokenBucketResult.getAddNum());
         assertEquals(tokenBucketConfig.getAddPeriod(), tokenBucketResult.getAddPeriod());

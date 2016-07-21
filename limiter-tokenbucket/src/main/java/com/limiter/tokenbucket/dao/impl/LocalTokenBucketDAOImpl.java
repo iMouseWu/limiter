@@ -1,10 +1,10 @@
 package com.limiter.tokenbucket.dao.impl;
 
-import java.util.HashMap;
-import java.util.Map;
-
 import com.limiter.tokenbucket.dao.TokenBucketDAO;
 import com.limiter.tokenbucket.domain.TokenBucket;
+
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * @author wuhao
@@ -12,16 +12,6 @@ import com.limiter.tokenbucket.domain.TokenBucket;
 public class LocalTokenBucketDAOImpl implements TokenBucketDAO {
 
     private static Map<String, TokenBucket> tokenBucketMap = new HashMap<>();
-
-    private static LocalTokenBucketDAOImpl localTokenBucketDAO = new LocalTokenBucketDAOImpl();
-
-    private LocalTokenBucketDAOImpl() {
-
-    }
-
-    public static LocalTokenBucketDAOImpl getInstance() {
-        return localTokenBucketDAO;
-    }
 
     @Override
     public TokenBucket getTokenBucket(String tokenBucketKey) {

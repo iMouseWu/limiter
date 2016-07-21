@@ -1,5 +1,6 @@
 package com.limiter.tokenbucket.dao.impl;
 
+import com.limiter.tokenbucket.ObjectFactory;
 import com.limiter.tokenbucket.dao.TokenBucketDAO;
 import com.limiter.tokenbucket.domain.TokenBucket;
 import org.junit.BeforeClass;
@@ -21,7 +22,7 @@ public class LocalTokenBucketDAOImplTest {
     @BeforeClass
     public static void beforeClass() {
         tokenBucketKey = "test";
-        localTokenBucketDAO = LocalTokenBucketDAOImpl.getInstance();
+        localTokenBucketDAO = ObjectFactory.getTokenBucketDAOInstance();
 
         tokenBucket = new TokenBucket() {
             @Override
@@ -82,7 +83,7 @@ public class LocalTokenBucketDAOImplTest {
         boolean result = localTokenBucketDAO.saveTokenBucket(tokenBucket);
         assertTrue(result);
 
-        TokenBucketDAO tokenBucketDAO = LocalTokenBucketDAOImpl.getInstance();
+        TokenBucketDAO tokenBucketDAO = ObjectFactory.getTokenBucketDAOInstance();
         TokenBucket tokenBucketResult = tokenBucketDAO.getTokenBucket(tokenBucketKey);
         assertEquals(tokenBucket.getAddNum(), tokenBucketResult.getAddNum());
         assertEquals(tokenBucket.getAddPeriod(), tokenBucketResult.getAddPeriod());

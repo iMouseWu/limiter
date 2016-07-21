@@ -1,11 +1,11 @@
 package com.limiter.lock.impl;
 
+import com.limiter.lock.LockService;
+
 import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.locks.ReentrantLock;
-
-import com.limiter.lock.LockService;
 
 /**
  * @author wuhao
@@ -13,16 +13,6 @@ import com.limiter.lock.LockService;
 public class LocalLockServiceImpl implements LockService {
 
     private static volatile Map<String, ReentrantLock> lockMap = new HashMap<>();
-
-    private static LocalLockServiceImpl localLockService = new LocalLockServiceImpl();
-
-    private LocalLockServiceImpl() {
-
-    }
-
-    public static LocalLockServiceImpl getInstance() {
-        return localLockService;
-    }
 
     @Override
     public boolean lock(String source) {

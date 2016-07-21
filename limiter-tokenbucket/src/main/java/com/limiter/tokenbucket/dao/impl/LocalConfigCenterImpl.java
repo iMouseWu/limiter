@@ -13,16 +13,6 @@ public class LocalConfigCenterImpl implements ConfigCenter {
 
     private static Map<String, TokenBucketConfig> configMap = new HashMap<>();
 
-    private static LocalConfigCenterImpl localConfigCenter = new LocalConfigCenterImpl();
-
-    private LocalConfigCenterImpl() {
-
-    }
-
-    public static LocalConfigCenterImpl getInstance() {
-        return localConfigCenter;
-    }
-
     @Override
     public TokenBucketConfig getConfig(String tokenBucketKey) {
         return configMap.get(tokenBucketKey);
