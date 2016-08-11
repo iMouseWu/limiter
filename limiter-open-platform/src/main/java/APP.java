@@ -1,16 +1,17 @@
-import com.limiter.TokenBucketContainer;
-import com.limiter.config.ConfigLoadImpl;
-import com.limiter.config.RuleDaoImpl;
-import com.limiter.config.parse.LocalFileParseServiceImpl;
-import com.limiter.lock.LockService;
-import com.limiter.tokenbucket.ObjectFactory;
-import com.limiter.tokenbucket.dao.TokenBucketDAO;
-import com.limiter.tokenbucket.dao.impl.LocalConfigCenterImpl;
-import com.limiter.tokenbucket.manage.TokenBucketManager;
-import com.limiter.tokenbucket.manage.impl.DefaultTokenFilledStrategy;
-import com.limiter.tokenbucket.service.TokenBucketService;
-import com.limiter.tokenbucket.service.impl.TokenBucketServiceImpl;
-import com.limiter.tokenbucket.time.impl.TimeToolsImpl;
+import com.limiter.open.TokenBucketContainer;
+import com.limiter.open.config.ConfigLoadImpl;
+import com.limiter.open.config.RuleDaoImpl;
+import com.limiter.open.config.parse.LocalFileParseServiceImpl;
+import com.limiter.open.lock.LockService;
+import com.limiter.open.lock.impl.LocalLockServiceImpl;
+import com.limiter.open.tokenbucket.core.TokenBucketDAO;
+import com.limiter.open.tokenbucket.config.impl.LocalConfigCenterImpl;
+import com.limiter.open.tokenbucket.core.impl.LocalTokenBucketDAOImpl;
+import com.limiter.open.tokenbucket.core.TokenBucketManager;
+import com.limiter.open.tokenbucket.core.impl.DefaultTokenFilledStrategy;
+import com.limiter.open.tokenbucket.core.TokenBucketService;
+import com.limiter.open.tokenbucket.core.impl.TokenBucketServiceImpl;
+import com.limiter.open.tokenbucket.core.impl.TimeToolsImpl;
 
 import java.util.concurrent.CountDownLatch;
 
@@ -43,7 +44,7 @@ public class APP {
         LocalFileParseServiceImpl localFileParseService = new LocalFileParseServiceImpl();
         RuleDaoImpl ruleDao = new RuleDaoImpl();
         ruleDao.setParseService(localFileParseService);
-        LocalConfigCenterImpl configCenter = ObjectFactory.getConfigCenterInstance();
+        LocalConfigCenterImpl configCenter = new LocalConfigCenterImpl();
 
         ConfigLoadImpl configLoad = new ConfigLoadImpl();
         configLoad.setConfigCenter(configCenter);
@@ -52,8 +53,8 @@ public class APP {
 
         TokenBucketServiceImpl tokenBucketService = new TokenBucketServiceImpl();
         TokenBucketManager tokenBucketManager = new TokenBucketManager();
-        LockService lockService = com.limiter.lock.ObjectFactory.getLocalLockServiceInstance();
-        TokenBucketDAO tokenBucketDAO = ObjectFactory.getTokenBucketDAOInstance();
+        LockService lockService = new LocalLockServiceImpl();
+        TokenBucketDAO tokenBucketDAO = new LocalTokenBucketDAOImpl();
         tokenBucketManager.setLockService(lockService);
         tokenBucketManager.setTokenBucketDAO(tokenBucketDAO);
 
