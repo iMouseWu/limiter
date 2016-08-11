@@ -1,17 +1,17 @@
 package com.limiter.open.tokenbucket.config.impl;
 
-import com.limiter.open.tokenbucket.domain.TokenBucketConfig;
 import com.limiter.open.tokenbucket.config.ConfigCenter;
+import com.limiter.open.tokenbucket.domain.TokenBucketConfig;
 
-import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * @author wuhao
  */
 public class LocalConfigCenterImpl implements ConfigCenter {
 
-    private static Map<String, TokenBucketConfig> configMap = new HashMap<>();
+    private static Map<String, TokenBucketConfig> configMap = new ConcurrentHashMap<>();
 
     @Override
     public TokenBucketConfig getConfig(String tokenBucketKey) {
