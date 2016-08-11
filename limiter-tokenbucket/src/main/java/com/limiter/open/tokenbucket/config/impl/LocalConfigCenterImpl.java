@@ -3,7 +3,6 @@ package com.limiter.open.tokenbucket.config.impl;
 import com.limiter.open.tokenbucket.config.ConfigCenter;
 import com.limiter.open.tokenbucket.domain.TokenBucketConfig;
 
-import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
 /**
@@ -11,7 +10,7 @@ import java.util.concurrent.ConcurrentHashMap;
  */
 public class LocalConfigCenterImpl implements ConfigCenter {
 
-    private static Map<String, TokenBucketConfig> configMap = new ConcurrentHashMap<>();
+    private static ConcurrentHashMap<String, TokenBucketConfig> configMap = new ConcurrentHashMap<>();
 
     @Override
     public TokenBucketConfig getConfig(String tokenBucketKey) {
