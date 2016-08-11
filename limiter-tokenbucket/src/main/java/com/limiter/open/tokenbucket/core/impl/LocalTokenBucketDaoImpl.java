@@ -1,6 +1,6 @@
 package com.limiter.open.tokenbucket.core.impl;
 
-import com.limiter.open.tokenbucket.core.TokenBucketDAO;
+import com.limiter.open.tokenbucket.core.TokenBucketDao;
 import com.limiter.open.tokenbucket.domain.TokenBucket;
 
 import java.util.Map;
@@ -9,7 +9,7 @@ import java.util.concurrent.ConcurrentHashMap;
 /**
  * @author wuhao
  */
-public class LocalTokenBucketDAOImpl implements TokenBucketDAO {
+public class LocalTokenBucketDaoImpl implements TokenBucketDao {
 
     private static Map<String, TokenBucket> tokenBucketMap = new ConcurrentHashMap<>();
 

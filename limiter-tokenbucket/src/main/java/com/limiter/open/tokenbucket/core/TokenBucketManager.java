@@ -8,17 +8,17 @@ import java.util.concurrent.TimeUnit;
 /**
  * @author wuhao
  */
-public class TokenBucketManager implements LockService, TokenBucketDAO {
+public class TokenBucketManager implements LockService, TokenBucketDao {
 
     private LockService lockService;
 
-    private TokenBucketDAO tokenBucketDAO;
+    private TokenBucketDao tokenBucketDAO;
 
     public void setLockService(LockService lockService) {
         this.lockService = lockService;
     }
 
-    public void setTokenBucketDAO(TokenBucketDAO tokenBucketDAO) {
+    public void setTokenBucketDAO(TokenBucketDao tokenBucketDAO) {
         this.tokenBucketDAO = tokenBucketDAO;
     }
 

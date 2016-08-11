@@ -20,7 +20,7 @@ public class LocalConfigCenterImpl implements ConfigCenter {
 
     @Override
     public boolean register(TokenBucketConfig tokenBucketConfig) {
-        configMap.put(tokenBucketConfig.getTokenBucketKey(), tokenBucketConfig);
+        configMap.putIfAbsent(tokenBucketConfig.getTokenBucketKey(), tokenBucketConfig);
         return true;
     }
 

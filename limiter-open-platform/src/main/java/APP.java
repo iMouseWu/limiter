@@ -4,9 +4,9 @@ import com.limiter.open.config.RuleDaoImpl;
 import com.limiter.open.config.parse.LocalFileParseServiceImpl;
 import com.limiter.open.lock.LockService;
 import com.limiter.open.lock.impl.LocalLockServiceImpl;
-import com.limiter.open.tokenbucket.core.TokenBucketDAO;
+import com.limiter.open.tokenbucket.core.TokenBucketDao;
 import com.limiter.open.tokenbucket.config.impl.LocalConfigCenterImpl;
-import com.limiter.open.tokenbucket.core.impl.LocalTokenBucketDAOImpl;
+import com.limiter.open.tokenbucket.core.impl.LocalTokenBucketDaoImpl;
 import com.limiter.open.tokenbucket.core.TokenBucketManager;
 import com.limiter.open.tokenbucket.core.impl.DefaultTokenFilledStrategy;
 import com.limiter.open.tokenbucket.core.TokenBucketService;
@@ -54,7 +54,7 @@ public class APP {
         TokenBucketServiceImpl tokenBucketService = new TokenBucketServiceImpl();
         TokenBucketManager tokenBucketManager = new TokenBucketManager();
         LockService lockService = new LocalLockServiceImpl();
-        TokenBucketDAO tokenBucketDAO = new LocalTokenBucketDAOImpl();
+        TokenBucketDao tokenBucketDAO = new LocalTokenBucketDaoImpl();
         tokenBucketManager.setLockService(lockService);
         tokenBucketManager.setTokenBucketDAO(tokenBucketDAO);
 

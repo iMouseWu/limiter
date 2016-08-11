@@ -8,15 +8,16 @@ import com.limiter.open.config.parse.LocalFileParseServiceImpl;
 import com.limiter.open.config.parse.ParseService;
 import com.limiter.open.lock.LockService;
 import com.limiter.open.lock.impl.LocalLockServiceImpl;
+import com.limiter.open.service.impl.ConfigCallBackImpl;
 import com.limiter.open.tokenbucket.config.ConfigCallBack;
 import com.limiter.open.tokenbucket.config.ConfigCenter;
 import com.limiter.open.tokenbucket.config.impl.LocalConfigCenterImpl;
-import com.limiter.open.tokenbucket.core.TokenBucketDAO;
+import com.limiter.open.tokenbucket.core.TokenBucketDao;
 import com.limiter.open.tokenbucket.core.TokenBucketManager;
 import com.limiter.open.tokenbucket.core.TokenBucketService;
 import com.limiter.open.tokenbucket.core.TokenFilledStrategy;
 import com.limiter.open.tokenbucket.core.impl.DefaultTokenFilledStrategy;
-import com.limiter.open.tokenbucket.core.impl.LocalTokenBucketDAOImpl;
+import com.limiter.open.tokenbucket.core.impl.LocalTokenBucketDaoImpl;
 import com.limiter.open.tokenbucket.core.impl.TimeToolsImpl;
 import com.limiter.open.tokenbucket.core.impl.TokenBucketServiceImpl;
 
@@ -37,11 +38,9 @@ public class LimiterFacade implements TokenBucketService {
 
     private LockService lockService;
 
-    private TokenBucketDAO tokenBucketDAO;
+    private TokenBucketDao tokenBucketDAO;
 
     private TokenFilledStrategy tokenFilledStrategy;
-
-    private ConfigCallBack configCallBack;
 
     private TokenBucketService tokenBucketService;
 
@@ -67,16 +66,12 @@ public class LimiterFacade implements TokenBucketService {
         this.lockService = lockService;
     }
 
-    public void setTokenBucketDAO(TokenBucketDAO tokenBucketDAO) {
+    public void setTokenBucketDAO(TokenBucketDao tokenBucketDAO) {
         this.tokenBucketDAO = tokenBucketDAO;
     }
 
     public void setTokenFilledStrategy(TokenFilledStrategy tokenFilledStrategy) {
         this.tokenFilledStrategy = tokenFilledStrategy;
-    }
-
-    public void setConfigCallBack(ConfigCallBack configCallBack) {
-        this.configCallBack = configCallBack;
     }
 
     @Override
@@ -124,7 +119,7 @@ public class LimiterFacade implements TokenBucketService {
         }
 
         if (null == tokenBucketDAO) {
-            tokenBucketDAO = new LocalTokenBucketDAOImpl();
+            tokenBucketDAO = new LocalTokenBucketDaoImpl();
         }
 
         if (null == ruleDao) {
@@ -150,6 +145,9 @@ public class LimiterFacade implements TokenBucketService {
         ((TokenBucketServiceImpl) tokenBucketService).setTokenBucketManager(tokenBucketManager);
         ((TokenBucketServiceImpl) tokenBucketService).setTokenFilledStrategy(tokenFilledStrategy);
         ((TokenBucketServiceImpl) tokenBucketService).setConfigCenter(configCenter);
+
+        ConfigCallBack configCallBack = new ConfigCallBackImpl();
+        ((TokenBucketServiceImpl) tokenBucketService).setConfigCallBack(configCallBack);
         configLoad.load();
     }
 }

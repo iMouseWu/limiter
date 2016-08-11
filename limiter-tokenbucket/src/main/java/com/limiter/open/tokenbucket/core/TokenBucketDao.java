@@ -5,7 +5,7 @@ import com.limiter.open.tokenbucket.domain.TokenBucket;
 /**
  * @author wuhao
  */
-public interface TokenBucketDAO {
+public interface TokenBucketDao {
 
     TokenBucket getTokenBucket(String tokenBucketKey);
 
