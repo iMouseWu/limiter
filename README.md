@@ -27,6 +27,6 @@
     * `TokenFilledStrategy`,令牌桶填充个策略,当前策略是如果如果达到令牌桶的容量则停止
 
 3. 运行方式
-        LimiterFacade limiterFacade = new LimiterFacade();
-        limiterFacade.consume();
-        limiterFacade.tryConsume();
+   `LimiterFacade limiterFacade = new LimiterFacade();`
+   `limiterFacade.consume();`
+   `limiterFacade.tryConsume();`
