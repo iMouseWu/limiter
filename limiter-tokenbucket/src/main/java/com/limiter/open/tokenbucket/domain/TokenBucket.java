@@ -1,9 +1,11 @@
 package com.limiter.open.tokenbucket.domain;
 
+import java.io.Serializable;
+
 /**
  * @author wuhao
  */
-public interface TokenBucket {
+public interface TokenBucket extends Serializable {
 
     String getTokenBucketKey();
 

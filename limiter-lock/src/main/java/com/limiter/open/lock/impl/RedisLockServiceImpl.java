@@ -1,34 +1,57 @@
 package com.limiter.open.lock.impl;
 
-import java.util.concurrent.TimeUnit;
-
 import com.limiter.open.lock.LockService;
+import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.math.NumberUtils;
+import redis.clients.jedis.Jedis;
+
+import java.util.concurrent.TimeUnit;
 
 /**
  * @author wuhao
  */
 public class RedisLockServiceImpl implements LockService {
+
+    private final static long TIME_MAX_LOCK = 1000L * 7;
+
+    private final static String NOT_EXIST_VALUE = "nil";
+
+    private final static long SUCCESS_RESULT = 1;
+
     @Override
     public boolean lock(String source) {
+        do {
+            if (tryLock(source)) {
+                return true;
+            }
+            try {
+                TimeUnit.MILLISECONDS.sleep(300);
+            } catch (InterruptedException e) {
+                Thread.currentThread().interrupt();
+                break;
+            }
+        } while (true);
         return false;
     }
 
     @Override
     public boolean tryLock(String source) {
-        //        {
-        //            long nowNanoTime = System.nanoTime();
-        //            for (; ; ) {
-        //                if (nanoTime > DEFAULT_MIN_NANOTIME) {
-        //                    TimeUnit.NANOSECONDS.sleep(nanoTime);
-        //                }
-        //                if ((System.nanoTime() - nowNanoTime) > nanoTime) {
-        //                    return tryConsume();
-        //                }
-        //                if (Thread.interrupted()) {
-        //                    throw new InterruptedException();
-        //                }
-        //            }
-        //        }
+        Jedis jedis = new Jedis("localhost");
+        String value = System.currentTimeMillis() + "";
+        Long result = jedis.setnx(source, value);
+        if (result == SUCCESS_RESULT) {
+            return true;
+        }
+        String oldValue = jedis.get(source);
+        if (StringUtils.equals(oldValue, NOT_EXIST_VALUE)) {
+            result = jedis.setnx(source, value);
+            return result == SUCCESS_RESULT;
+        }
+        long time = NumberUtils.toLong(oldValue);
+        if (time < System.currentTimeMillis()) {
+            String oldValueMirror = jedis.getSet(source, System.currentTimeMillis() + TIME_MAX_LOCK + "");
+            return StringUtils.equals(oldValueMirror, NOT_EXIST_VALUE) || StringUtils.equals(oldValue, oldValueMirror);
+        }
         return false;
     }
 
@@ -39,6 +62,8 @@ public class RedisLockServiceImpl implements LockService {
 
     @Override
     public boolean unlock(String source) {
-        return false;
+        Jedis jedis = new Jedis("localhost");
+        jedis.del(source);
+        return true;
     }
 }
