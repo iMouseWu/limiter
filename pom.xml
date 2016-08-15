@@ -103,5 +103,6 @@
         <module>limiter-lock</module>
         <module>limiter-tokenbucket</module>
         <module>limiter-open-platform</module>
+        <module>limiter-common</module>
     </modules>
 </project>

@@ -1,5 +1,6 @@
 package com.limiter.open.lock.impl;
 
+import com.limiter.open.common.JedisSupport;
 import com.limiter.open.lock.LockService;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.math.NumberUtils;
@@ -10,7 +11,7 @@ import java.util.concurrent.TimeUnit;
 /**
  * @author wuhao
  */
-public class RedisLockServiceImpl implements LockService {
+public class RedisLockServiceImpl extends JedisSupport implements LockService {
 
     private final static long TIME_MAX_LOCK = 1000L * 7;
 
@@ -36,20 +37,19 @@ public class RedisLockServiceImpl implements LockService {
 
     @Override
     public boolean tryLock(String source) {
-        Jedis jedis = new Jedis("localhost");
         String value = System.currentTimeMillis() + "";
-        Long result = jedis.setnx(source, value);
+        Long result = getJedis().setnx(source, value);
         if (result == SUCCESS_RESULT) {
             return true;
         }
-        String oldValue = jedis.get(source);
+        String oldValue = getJedis().get(source);
         if (StringUtils.equals(oldValue, NOT_EXIST_VALUE)) {
-            result = jedis.setnx(source, value);
+            result = getJedis().setnx(source, value);
             return result == SUCCESS_RESULT;
         }
         long time = NumberUtils.toLong(oldValue);
         if (time < System.currentTimeMillis()) {
-            String oldValueMirror = jedis.getSet(source, System.currentTimeMillis() + TIME_MAX_LOCK + "");
+            String oldValueMirror = getJedis().getSet(source, System.currentTimeMillis() + TIME_MAX_LOCK + "");
             return StringUtils.equals(oldValueMirror, NOT_EXIST_VALUE) || StringUtils.equals(oldValue, oldValueMirror);
         }
         return false;

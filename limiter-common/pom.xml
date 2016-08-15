@@ -3,27 +3,14 @@
     <modelVersion>4.0.0</modelVersion>
 
 
-    <artifactId>limiter-lock</artifactId>
-    <name>limiter-lock</name>
-    <dependencies>
-        <dependency>
-            <groupId>com.limiter</groupId>
-            <artifactId>limiter-common</artifactId>
-            <version>1.0.1-SNAPSHOT</version>
-        </dependency>
-    </dependencies>
+    <artifactId>limiter-common</artifactId>
+    <name>limiter-common</name>
 
     <parent>
         <groupId>com.limiter</groupId>
         <artifactId>limiter-parent</artifactId>
         <version>1.0.1-SNAPSHOT</version>
     </parent>
-
-    <dependency>
-        <groupId>com.limiter</groupId>
-        <artifactId>limiter-common</artifactId>
-        <version>1.0.1-SNAPSHOT</version>
-    </dependency>
 
 
     <properties>

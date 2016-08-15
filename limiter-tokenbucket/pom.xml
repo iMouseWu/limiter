@@ -16,6 +16,12 @@
             <artifactId>limiter-lock</artifactId>
             <version>1.0.1-SNAPSHOT</version>
         </dependency>
+
+        <dependency>
+            <groupId>com.limiter</groupId>
+            <artifactId>limiter-common</artifactId>
+            <version>1.0.1-SNAPSHOT</version>
+        </dependency>
     </dependencies>
 
     <properties>
