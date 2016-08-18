@@ -38,7 +38,7 @@ public class JedisUtils {
         if (StringUtils.isEmpty(path)) {
             path = "redis.properties";
         }
-        InputStream inputStream = JedisUtils.class.getResourceAsStream(path);
+        InputStream inputStream = JedisUtils.class.getClassLoader().getResourceAsStream(path);
         Properties properties = new Properties();
         try {
             properties.load(inputStream);
@@ -47,14 +47,14 @@ public class JedisUtils {
         }
 
         JedisConfig jedisConfig = new JedisConfig();
-        jedisConfig.setMaxTotal(Integer.valueOf(properties.getProperty("")));
-        jedisConfig.setMaxIdle(Integer.valueOf(properties.getProperty("")));
-        jedisConfig.setPassword(properties.getProperty(""));
-        jedisConfig.setTimeout(Integer.valueOf(properties.getProperty("")));
+        jedisConfig.setMaxTotal(Integer.valueOf(properties.getProperty("redis.maxTotal")));
+        jedisConfig.setMaxIdle(Integer.valueOf(properties.getProperty("redis.maxIdle")));
+        jedisConfig.setPassword(properties.getProperty("redis.password"));
+        jedisConfig.setTimeout(Integer.valueOf(properties.getProperty("redis.timeout")));
 
-        jedisConfig.setHost(properties.getProperty(""));
-        jedisConfig.setPort(Integer.valueOf(properties.getProperty("")));
+        jedisConfig.setHost(properties.getProperty("redis.host"));
+        jedisConfig.setPort(Integer.valueOf(properties.getProperty("redis.port")));
+
         return jedisConfig;
     }
-
 }

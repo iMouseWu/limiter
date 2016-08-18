@@ -4,7 +4,6 @@ import com.limiter.open.common.JedisSupport;
 import com.limiter.open.lock.LockService;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.math.NumberUtils;
-import redis.clients.jedis.Jedis;
 
 import java.util.concurrent.TimeUnit;
 
@@ -37,7 +36,7 @@ public class RedisLockServiceImpl extends JedisSupport implements LockService {
 
     @Override
     public boolean tryLock(String source) {
-        String value = System.currentTimeMillis() + "";
+        String value = System.currentTimeMillis() + TIME_MAX_LOCK + "";
         Long result = getJedis().setnx(source, value);
         if (result == SUCCESS_RESULT) {
             return true;
@@ -62,8 +61,12 @@ public class RedisLockServiceImpl extends JedisSupport implements LockService {
 
     @Override
     public boolean unlock(String source) {
-        Jedis jedis = new Jedis("localhost");
-        jedis.del(source);
+        getJedis().del(source);
         return true;
+    }
+
+    public static void main(String[] args) {
+        RedisLockServiceImpl redis = new RedisLockServiceImpl();
+        System.out.println(redis.lock("1234"));
     }
 }

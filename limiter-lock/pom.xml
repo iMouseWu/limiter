@@ -19,12 +19,6 @@
         <version>1.0.1-SNAPSHOT</version>
     </parent>
 
-    <dependency>
-        <groupId>com.limiter</groupId>
-        <artifactId>limiter-common</artifactId>
-        <version>1.0.1-SNAPSHOT</version>
-    </dependency>
-
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
