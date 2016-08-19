@@ -1,5 +1,6 @@
 # limiter
 [![Build Status](https://travis-ci.org/iMouseWu/limiter.svg?branch=master)](https://travis-ci.org/iMouseWu/limiter)
+[![](https://jitpack.io/v/iMouseWu/limiter.svg)](https://jitpack.io/#iMouseWu/limiter)
 
 #### 包括三个模块
 1. `limiter-lock` 锁
