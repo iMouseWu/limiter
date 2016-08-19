@@ -31,5 +31,19 @@
 3. 运行方式
 
 		LimiterFacade limiterFacade = new LimiterFacade();
-		limiterFacade.consume();
-		limiterFacade.tryConsume();
+		limiterFacade.visit("appkey","method");
+4. `maven`依赖
+
+		<repositories>
+		  <repository>
+		    <id>jitpack.io</id>
+		    <url>https://jitpack.io</url>
+		  </repository>
+		</repositories>
+
+		<dependency>
+	      <groupId>com.github.iMouseWu.limiter</groupId>
+	      <artifactId>limiter-open-platform</artifactId>
+	       <version>1.0.1</version>
+	    </dependency>
+
