@@ -29,7 +29,8 @@
     * `TokenFilledStrategy`,令牌桶填充个策略,当前策略是如果如果达到令牌桶的容量则停止
 
 3. 运行方式
-
+     * 在项目`resources`文件夹加入配置文件,参考`limiter-open-platform.src.test.resources`路径下的配置文件
+     * 在项目中引用`LimiterFacade`,外部使用**必须保证`LimiterFacade`是单例的**
 		LimiterFacade limiterFacade = new LimiterFacade();
 		limiterFacade.visit("appkey","method");
 4. `maven`依赖
