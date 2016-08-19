@@ -14,7 +14,7 @@ public class OpenPlatformServiceImpl implements OpenPlatformService {
 
     @Override
     public boolean visit(String appkey, String method) {
-        return tokenBucketService.consume(TokenBucketKeyUtils.generateTokenBucketKey(appkey, method));
+        return tokenBucketService.tryConsume(TokenBucketKeyUtils.generateTokenBucketKey(appkey, method));
     }
 
 }

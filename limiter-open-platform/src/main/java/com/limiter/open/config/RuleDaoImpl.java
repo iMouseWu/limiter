@@ -22,8 +22,10 @@ public class RuleDaoImpl implements RuleDao {
     public Config selectConfig() {
         if (!isLoad) {
             synchronized (this) {
-                config = parseService.parse();
-                isLoad = true;
+                if(!isLoad){
+                    config = parseService.parse();
+                    isLoad = true;
+                }
             }
         }
         return config;

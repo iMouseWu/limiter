@@ -5,6 +5,7 @@ import com.limiter.open.config.parse.domain.XDocument;
 import com.limiter.open.config.parse.domain.XElement;
 import com.limiter.open.config.parse.domain.Xparse;
 import com.limiter.open.config.parse.exception.ParseException;
+import org.apache.commons.lang3.StringUtils;
 import org.xml.sax.SAXException;
 
 import javax.xml.parsers.ParserConfigurationException;
@@ -16,9 +17,19 @@ import java.util.List;
  * @author wuhao
  */
 public class LocalFileParseServiceImpl implements ParseService {
+
+    private String configPath;
+
+    public void setConfigPath(String configPath) {
+        this.configPath = configPath;
+    }
+
     @Override
     public Config parse() {
-        return parse("configs.xml");
+        if (StringUtils.isEmpty(configPath)) {
+            configPath = "configs.xml";
+        }
+        return parse(configPath);
     }
 
     @Override

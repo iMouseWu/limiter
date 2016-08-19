@@ -18,6 +18,14 @@ public class RedisLockServiceImpl extends JedisSupport implements LockService {
 
     private final static long SUCCESS_RESULT = 1;
 
+    public RedisLockServiceImpl() {
+
+    }
+
+    public RedisLockServiceImpl(String redisConfigPath) {
+        super(redisConfigPath);
+    }
+
     @Override
     public boolean lock(String source) {
         do {

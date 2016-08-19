@@ -8,7 +8,9 @@ import com.limiter.open.config.parse.LocalFileParseServiceImpl;
 import com.limiter.open.config.parse.ParseService;
 import com.limiter.open.lock.LockService;
 import com.limiter.open.lock.impl.LocalLockServiceImpl;
+import com.limiter.open.service.OpenPlatformService;
 import com.limiter.open.service.impl.ConfigCallBackImpl;
+import com.limiter.open.service.impl.OpenPlatformServiceImpl;
 import com.limiter.open.tokenbucket.config.ConfigCallBack;
 import com.limiter.open.tokenbucket.config.ConfigCenter;
 import com.limiter.open.tokenbucket.config.impl.LocalConfigCenterImpl;
@@ -21,12 +23,10 @@ import com.limiter.open.tokenbucket.core.impl.LocalTokenBucketDaoImpl;
 import com.limiter.open.tokenbucket.core.impl.TimeToolsImpl;
 import com.limiter.open.tokenbucket.core.impl.TokenBucketServiceImpl;
 
-import java.util.concurrent.TimeUnit;
-
 /**
  * @author wuhao
  */
-public class LimiterFacade implements TokenBucketService {
+public class LimiterFacade implements OpenPlatformService {
 
     private ParseService parseService;
 
@@ -42,7 +42,9 @@ public class LimiterFacade implements TokenBucketService {
 
     private TokenFilledStrategy tokenFilledStrategy;
 
-    private TokenBucketService tokenBucketService;
+    private OpenPlatformService openPlatformServiceProxy;
+
+    private String configPath;
 
     private volatile boolean isLoad;
 
@@ -75,21 +77,9 @@ public class LimiterFacade implements TokenBucketService {
     }
 
     @Override
-    public boolean consume(String tokenBucketKey) {
+    public boolean visit(String appkey, String method) {
         init();
-        return tokenBucketService.consume(tokenBucketKey);
-    }
-
-    @Override
-    public boolean tryConsume(String tokenBucketKey) {
-        init();
-        return tokenBucketService.tryConsume(tokenBucketKey);
-    }
-
-    @Override
-    public boolean tryConsume(String tokenBucketKey, long time, TimeUnit timeUnit) {
-        init();
-        return tokenBucketService.tryConsume(tokenBucketKey, time, timeUnit);
+        return openPlatformServiceProxy.visit(appkey, method);
     }
 
     private void init() {
@@ -97,17 +87,17 @@ public class LimiterFacade implements TokenBucketService {
             return;
         }
         synchronized (this) {
-            if (isLoad) {
-                return;
+            if (!isLoad) {
+                load();
+                isLoad = true;
             }
-            load();
-            isLoad = true;
         }
     }
 
     private void load() {
         if (null == parseService) {
             parseService = new LocalFileParseServiceImpl();
+            ((LocalFileParseServiceImpl) parseService).setConfigPath(configPath);
         }
 
         if (null == configCenter) {
@@ -138,16 +128,20 @@ public class LimiterFacade implements TokenBucketService {
             ((ConfigLoadImpl) configLoad).setRuleDao(ruleDao);
         }
 
-        tokenBucketService = new TokenBucketServiceImpl();
+        TokenBucketService tokenBucketService = new TokenBucketServiceImpl();
         TokenBucketManager tokenBucketManager = new TokenBucketManager();
         tokenBucketManager.setLockService(lockService);
         tokenBucketManager.setTokenBucketDAO(tokenBucketDAO);
         ((TokenBucketServiceImpl) tokenBucketService).setTokenBucketManager(tokenBucketManager);
         ((TokenBucketServiceImpl) tokenBucketService).setTokenFilledStrategy(tokenFilledStrategy);
         ((TokenBucketServiceImpl) tokenBucketService).setConfigCenter(configCenter);
+        ((TokenBucketServiceImpl) tokenBucketService).setTimeTools(new TimeToolsImpl());
 
         ConfigCallBack configCallBack = new ConfigCallBackImpl();
         ((TokenBucketServiceImpl) tokenBucketService).setConfigCallBack(configCallBack);
+
+        openPlatformServiceProxy = new OpenPlatformServiceImpl();
+        ((OpenPlatformServiceImpl) openPlatformServiceProxy).setTokenBucketService(tokenBucketService);
         configLoad.load();
     }
 }
