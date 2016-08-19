@@ -9,14 +9,14 @@
         <dependency>
             <groupId>com.limiter</groupId>
             <artifactId>limiter-common</artifactId>
-            <version>1.0.1-SNAPSHOT</version>
+            <version>1.0.1</version>
         </dependency>
     </dependencies>
 
     <parent>
         <groupId>com.limiter</groupId>
         <artifactId>limiter-parent</artifactId>
-        <version>1.0.1-SNAPSHOT</version>
+        <version>1.0.1</version>
     </parent>
 
 

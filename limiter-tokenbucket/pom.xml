@@ -7,20 +7,20 @@
     <parent>
         <groupId>com.limiter</groupId>
         <artifactId>limiter-parent</artifactId>
-        <version>1.0.1-SNAPSHOT</version>
+        <version>1.0.1</version>
     </parent>
 
     <dependencies>
         <dependency>
             <groupId>com.limiter</groupId>
             <artifactId>limiter-lock</artifactId>
-            <version>1.0.1-SNAPSHOT</version>
+            <version>1.0.1</version>
         </dependency>
 
         <dependency>
             <groupId>com.limiter</groupId>
             <artifactId>limiter-common</artifactId>
-            <version>1.0.1-SNAPSHOT</version>
+            <version>1.0.1</version>
         </dependency>
     </dependencies>
 
