@@ -2,10 +2,11 @@
 [![Build Status](https://travis-ci.org/iMouseWu/limiter.svg?branch=master)](https://travis-ci.org/iMouseWu/limiter)
 [![](https://jitpack.io/v/iMouseWu/limiter.svg)](https://jitpack.io/#iMouseWu/limiter)
 
-#### 包括三个模块
+#### 包括四个模块
 1. `limiter-lock` 锁
 2. `limiter-tokenbucket` 令牌桶模块
 3. `limiter-open-platform` 开放平台限流器模块
+4. 'limiter-common' 公有的类库
 
 #### 简单说明
 1. 可以从`appkey`,`method`,`appkey+detail`对开放平台接口调用进行限制,默认后者的配置会覆盖前者
